@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "lw::Button::vEvent(lw::TouchEvent const&amp;):lwButton.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "&amp;evt">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
