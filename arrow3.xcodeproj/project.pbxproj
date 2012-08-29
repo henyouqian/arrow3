@@ -8,12 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		D03087B215EA665C0031D5D4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D03087B015EA66440031D5D4 /* OpenAL.framework */; };
+		D05662C915EE094800CD93BC /* target.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D05662C715EE094800CD93BC /* target.cpp */; };
+		D05662CC15EE15A000CD93BC /* inserter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D05662CA15EE15A000CD93BC /* inserter.cpp */; };
 		D0ABF4BB15ECF29D008CFDD8 /* liblibs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0ABF3FA15ECF1D3008CFDD8 /* liblibs.a */; };
 		D0ABF4BC15ECF29D008CFDD8 /* liblwtf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0CB117B15E68BC2003DF8B6 /* liblwtf.a */; };
 		D0ABF5A815ED26E0008CFDD8 /* app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0ABF58215ED26E0008CFDD8 /* app.cpp */; };
 		D0ABF5AA15ED26E0008CFDD8 /* arrowAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = D0ABF58615ED26E0008CFDD8 /* arrowAppDelegate.mm */; };
 		D0ABF5AB15ED26E0008CFDD8 /* arrowViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = D0ABF58815ED26E0008CFDD8 /* arrowViewController.mm */; };
-		D0ABF5AC15ED26E0008CFDD8 /* fluit.pod in Resources */ = {isa = PBXBuildFile; fileRef = D0ABF58B15ED26E0008CFDD8 /* fluit.pod */; };
+		D0ABF5AC15ED26E0008CFDD8 /* fruit.pod in Resources */ = {isa = PBXBuildFile; fileRef = D0ABF58B15ED26E0008CFDD8 /* fruit.pod */; };
 		D0ABF5AD15ED26E0008CFDD8 /* newton.pod in Resources */ = {isa = PBXBuildFile; fileRef = D0ABF58C15ED26E0008CFDD8 /* newton.pod */; };
 		D0ABF5AE15ED26E0008CFDD8 /* sprite.fsh in Sources */ = {isa = PBXBuildFile; fileRef = D0ABF58E15ED26E0008CFDD8 /* sprite.fsh */; };
 		D0ABF5AF15ED26E0008CFDD8 /* sprite.vsh in Sources */ = {isa = PBXBuildFile; fileRef = D0ABF58F15ED26E0008CFDD8 /* sprite.vsh */; };
@@ -71,6 +73,10 @@
 
 /* Begin PBXFileReference section */
 		D03087B015EA66440031D5D4 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		D05662C715EE094800CD93BC /* target.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = target.cpp; sourceTree = "<group>"; };
+		D05662C815EE094800CD93BC /* target.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = target.h; sourceTree = "<group>"; };
+		D05662CA15EE15A000CD93BC /* inserter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = inserter.cpp; sourceTree = "<group>"; };
+		D05662CB15EE15A000CD93BC /* inserter.h */ = {isa = PBXFileReference; fileEncoding = 4; path = inserter.h; sourceTree = "<group>"; };
 		D06788E115E6A27B006FAE24 /* sprite.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sprite.fsh; sourceTree = "<group>"; };
 		D06788E215E6A27B006FAE24 /* sprite.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sprite.vsh; sourceTree = "<group>"; };
 		D0678A2E15E9287D006FAE24 /* girl0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = girl0.png; sourceTree = "<group>"; };
@@ -86,7 +92,7 @@
 		D0ABF58615ED26E0008CFDD8 /* arrowAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = arrowAppDelegate.mm; sourceTree = "<group>"; };
 		D0ABF58715ED26E0008CFDD8 /* arrowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = arrowViewController.h; sourceTree = "<group>"; };
 		D0ABF58815ED26E0008CFDD8 /* arrowViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = arrowViewController.mm; sourceTree = "<group>"; };
-		D0ABF58B15ED26E0008CFDD8 /* fluit.pod */ = {isa = PBXFileReference; lastKnownFileType = file; path = fluit.pod; sourceTree = "<group>"; };
+		D0ABF58B15ED26E0008CFDD8 /* fruit.pod */ = {isa = PBXFileReference; lastKnownFileType = file; path = fruit.pod; sourceTree = "<group>"; };
 		D0ABF58C15ED26E0008CFDD8 /* newton.pod */ = {isa = PBXFileReference; lastKnownFileType = file; path = newton.pod; sourceTree = "<group>"; };
 		D0ABF58E15ED26E0008CFDD8 /* sprite.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sprite.fsh; sourceTree = "<group>"; };
 		D0ABF58F15ED26E0008CFDD8 /* sprite.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sprite.vsh; sourceTree = "<group>"; };
@@ -194,6 +200,14 @@
 		D0ABF58115ED26E0008CFDD8 /* arrow3 */ = {
 			isa = PBXGroup;
 			children = (
+				D05662CA15EE15A000CD93BC /* inserter.cpp */,
+				D05662CB15EE15A000CD93BC /* inserter.h */,
+				D05662C715EE094800CD93BC /* target.cpp */,
+				D05662C815EE094800CD93BC /* target.h */,
+				D0ABF5A315ED26E0008CFDD8 /* spritePod.cpp */,
+				D0ABF5A415ED26E0008CFDD8 /* spritePod.h */,
+				D0ABF5A615ED26E0008CFDD8 /* taskCube.cpp */,
+				D0ABF5A715ED26E0008CFDD8 /* taskCube.h */,
 				D0ABF58215ED26E0008CFDD8 /* app.cpp */,
 				D0ABF58315ED26E0008CFDD8 /* app.h */,
 				D0ABF58515ED26E0008CFDD8 /* arrowAppDelegate.h */,
@@ -207,11 +221,7 @@
 				D0ABF5A015ED26E0008CFDD8 /* lwGLKView.h */,
 				D0ABF5A115ED26E0008CFDD8 /* lwGLKView.mm */,
 				D0ABF5A215ED26E0008CFDD8 /* main.m */,
-				D0ABF5A315ED26E0008CFDD8 /* spritePod.cpp */,
-				D0ABF5A415ED26E0008CFDD8 /* spritePod.h */,
 				D0ABF5A515ED26E0008CFDD8 /* stdafx.h */,
-				D0ABF5A615ED26E0008CFDD8 /* taskCube.cpp */,
-				D0ABF5A715ED26E0008CFDD8 /* taskCube.h */,
 			);
 			path = arrow3;
 			sourceTree = "<group>";
@@ -230,7 +240,7 @@
 		D0ABF58A15ED26E0008CFDD8 /* model */ = {
 			isa = PBXGroup;
 			children = (
-				D0ABF58B15ED26E0008CFDD8 /* fluit.pod */,
+				D0ABF58B15ED26E0008CFDD8 /* fruit.pod */,
 				D0ABF58C15ED26E0008CFDD8 /* newton.pod */,
 			);
 			path = model;
@@ -386,7 +396,7 @@
 			files = (
 				D0ABF5BE15ED3025008CFDD8 /* sprite.fsh in Resources */,
 				D0ABF5BF15ED3025008CFDD8 /* sprite.vsh in Resources */,
-				D0ABF5AC15ED26E0008CFDD8 /* fluit.pod in Resources */,
+				D0ABF5AC15ED26E0008CFDD8 /* fruit.pod in Resources */,
 				D0ABF5AD15ED26E0008CFDD8 /* newton.pod in Resources */,
 				D0ABF5B215ED26E0008CFDD8 /* beep.wav in Resources */,
 				D0ABF5B315ED26E0008CFDD8 /* success.wav in Resources */,
@@ -415,6 +425,8 @@
 				D0ABF5BB15ED26E0008CFDD8 /* main.m in Sources */,
 				D0ABF5BC15ED26E0008CFDD8 /* spritePod.cpp in Sources */,
 				D0ABF5BD15ED26E0008CFDD8 /* taskCube.cpp in Sources */,
+				D05662C915EE094800CD93BC /* target.cpp in Sources */,
+				D05662CC15EE15A000CD93BC /* inserter.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

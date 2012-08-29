@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "taskCube.h"
-
+#include "target.h"
 
 void TaskCube::vBegin(){
     _pSpt = lw::Sprite::create("girl0.png");
@@ -16,8 +16,26 @@ void TaskCube::vBegin(){
     
     _pBtn = lw::Button::create(this, NULL, "girl0.png", 100, 100, 100, 100, 130, 100, 100, 100);
     
-    _pSptPod = new SpritePod("fluit.pod", "apple");
+    _pSptPod = new SpritePod("fruit.pod", "apple");
     _pSptPod->setPos(100, 200);
+    
+    _pWorld = new b2World(b2Vec2(0, -10));
+    
+    b2BodyDef bd;
+	bd.type = b2_dynamicBody;
+	bd.allowSleep = false;
+	bd.linearDamping = 0.3f;
+	bd.angularDamping = 2.2f;
+	bd.bullet = true;
+    
+    b2FixtureDef fd;
+    fd.density = 1.f;
+    fd.filter.groupIndex = -1;
+    fd.friction = 0.2f;
+    fd.restitution = 0.5f;
+    
+    _pTarget = new Target("fruit.pod", "apple", _pWorld, bd, fd);
+    _pTarget->setPos(160.f, 0.f);
 }
 
 void TaskCube::vEnd(){
@@ -25,10 +43,11 @@ void TaskCube::vEnd(){
     delete _pSnd;
     delete _pBtn;
     delete _pSptPod;
+    delete _pWorld;
 }
 
 void TaskCube::vMain(){
-    
+    _pWorld->Step(1.f/60.f, 8, 3);
 }
 
 void TaskCube::vDraw(){
@@ -39,9 +58,10 @@ void TaskCube::vDraw(){
     float s = sinf(_t);
     _pSpt->setRotate(_t*.1f);
     _pSpt->setScale(s, s);
-    //_pSpt->draw();
+    _pSpt->draw();
     _pBtn->draw();
     _pSptPod->draw();
+    _pTarget->draw();
 }
 
 void TaskCube::vEvent(const lw::TouchEvent& evt){

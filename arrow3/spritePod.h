@@ -13,6 +13,10 @@ public:
     void setPos(float x, float y);
     void setRotate(float r);
     void setScale(float x, float y);
+    void getPos(float &x, float &y);
+    void getRotate(float &r);
+    void getScale(float &x, float &y);
+    const std::vector<lw::SpriteVertex>& getVertices();
     
 private:
     void update();

@@ -121,6 +121,20 @@ void SpritePod::setScale(float x, float y){
     }
 }
 
+void SpritePod::getPos(float &x, float &y){
+    x = _posX;
+    y = _posY;
+}
+
+void SpritePod::getRotate(float &r){
+    r = _rotate;
+}
+
+void SpritePod::getScale(float &x, float &y){
+    x = _scaleX;
+    y = _scaleY;
+}
+
 void SpritePod::update(){
     _needUpdate = false;
     
@@ -147,6 +161,10 @@ void SpritePod::update(){
         vtx.y = -v[1];
         _transVertices.push_back(vtx);
     }
+}
+
+const std::vector<lw::SpriteVertex>& SpritePod::getVertices(){
+    return _vertices;
 }
 
 

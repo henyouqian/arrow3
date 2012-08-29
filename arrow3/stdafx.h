@@ -24,4 +24,8 @@
     #include "lwtf/lwSound.h"
     #include "lwtf/lwFileSys.h"
     #include "lwtf/lwTexture.h"
+
+    #include "Box2D/Box2D.h"
 #endif
+
+extern const float B2_SCALE; 
