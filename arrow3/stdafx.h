@@ -17,6 +17,7 @@
     #include <OpenGLES/ES2/gl.h>
     #include "lwtf/lwPreInclude.h"
     #include "lwtf/lwLog.h"
+    #include "lwtf/lwUtil.h"
     #include "lwtf/lwTask.h"
     #include "lwtf/lwSingleton.h"
     #include "lwtf/lwSprite.h"
@@ -24,8 +25,14 @@
     #include "lwtf/lwSound.h"
     #include "lwtf/lwFileSys.h"
     #include "lwtf/lwTexture.h"
+    #include "lwtf/lwLabelBM.h"
+    #include "lwtf/lwHTTPClient.h"
+    #include "lwtf/UI/lwButton.h"
+    #include "lwtf/UI/lwCheckbox.h"
 
     #include "Box2D/Box2D.h"
+
+    #include <sstream>
 #endif
 
 extern const float B2_SCALE; 
