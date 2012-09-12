@@ -11,6 +11,8 @@ public:
     
 private:
     virtual void vClick(lw::Button* pButton);
+    
+    std::vector<int> _cards;
 };
 
 #endif //__TASK_POKER_H__
