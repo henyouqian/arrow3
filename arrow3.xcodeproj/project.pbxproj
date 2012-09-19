@@ -9,10 +9,10 @@
 /* Begin PBXBuildFile section */
 		D00D1BF51609E37D00AB1385 /* taskDig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D00D1BF31609E37D00AB1385 /* taskDig.cpp */; };
 		D00D1BF81609E4A000AB1385 /* clod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D00D1BF61609E4A000AB1385 /* clod.cpp */; };
-		D00D1C42160A033B00AB1385 /* clod.fsh in Sources */ = {isa = PBXBuildFile; fileRef = D00D1C40160A033B00AB1385 /* clod.fsh */; };
-		D00D1C43160A033B00AB1385 /* clod.vsh in Sources */ = {isa = PBXBuildFile; fileRef = D00D1C41160A033B00AB1385 /* clod.vsh */; };
-		D00D1C44160A03EA00AB1385 /* clod.fsh in Resources */ = {isa = PBXBuildFile; fileRef = D00D1C40160A033B00AB1385 /* clod.fsh */; };
-		D00D1C45160A03EA00AB1385 /* clod.vsh in Resources */ = {isa = PBXBuildFile; fileRef = D00D1C41160A033B00AB1385 /* clod.vsh */; };
+		D00D1C42160A033B00AB1385 /* clod_.fsh in Sources */ = {isa = PBXBuildFile; fileRef = D00D1C40160A033B00AB1385 /* clod_.fsh */; };
+		D00D1C43160A033B00AB1385 /* clod_.vsh in Sources */ = {isa = PBXBuildFile; fileRef = D00D1C41160A033B00AB1385 /* clod_.vsh */; };
+		D00D1C44160A03EA00AB1385 /* clod_.fsh in Resources */ = {isa = PBXBuildFile; fileRef = D00D1C40160A033B00AB1385 /* clod_.fsh */; };
+		D00D1C45160A03EA00AB1385 /* clod_.vsh in Resources */ = {isa = PBXBuildFile; fileRef = D00D1C41160A033B00AB1385 /* clod_.vsh */; };
 		D03087B215EA665C0031D5D4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D03087B015EA66440031D5D4 /* OpenAL.framework */; };
 		D04B25C615FFB13B002B64CD /* httpMsg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D04B25C415FFB13B002B64CD /* httpMsg.cpp */; };
 		D04B25DF16010553002B64CD /* taskPoker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D04B25DD16010551002B64CD /* taskPoker.cpp */; };
@@ -94,8 +94,8 @@
 		D00D1BF41609E37D00AB1385 /* taskDig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = taskDig.h; sourceTree = "<group>"; };
 		D00D1BF61609E4A000AB1385 /* clod.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = clod.cpp; sourceTree = "<group>"; };
 		D00D1BF71609E4A000AB1385 /* clod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clod.h; sourceTree = "<group>"; };
-		D00D1C40160A033B00AB1385 /* clod.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = clod.fsh; sourceTree = "<group>"; };
-		D00D1C41160A033B00AB1385 /* clod.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = clod.vsh; sourceTree = "<group>"; };
+		D00D1C40160A033B00AB1385 /* clod_.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = clod_.fsh; sourceTree = "<group>"; };
+		D00D1C41160A033B00AB1385 /* clod_.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = clod_.vsh; sourceTree = "<group>"; };
 		D03087B015EA66440031D5D4 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		D04B25C415FFB13B002B64CD /* httpMsg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = httpMsg.cpp; sourceTree = "<group>"; };
 		D04B25C515FFB13B002B64CD /* httpMsg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = httpMsg.h; sourceTree = "<group>"; };
@@ -252,8 +252,8 @@
 		D0ABF58D15ED26E0008CFDD8 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
-				D00D1C40160A033B00AB1385 /* clod.fsh */,
-				D00D1C41160A033B00AB1385 /* clod.vsh */,
+				D00D1C40160A033B00AB1385 /* clod_.fsh */,
+				D00D1C41160A033B00AB1385 /* clod_.vsh */,
 				D0ABF58E15ED26E0008CFDD8 /* sprite.fsh */,
 				D0ABF58F15ED26E0008CFDD8 /* sprite.vsh */,
 			);
@@ -404,8 +404,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D00D1C44160A03EA00AB1385 /* clod.fsh in Resources */,
-				D00D1C45160A03EA00AB1385 /* clod.vsh in Resources */,
+				D00D1C44160A03EA00AB1385 /* clod_.fsh in Resources */,
+				D00D1C45160A03EA00AB1385 /* clod_.vsh in Resources */,
 				D0ABF5BE15ED3025008CFDD8 /* sprite.fsh in Resources */,
 				D0ABF5BF15ED3025008CFDD8 /* sprite.vsh in Resources */,
 				D0ABF5AC15ED26E0008CFDD8 /* fruit.pod in Resources */,
@@ -452,8 +452,8 @@
 				D04B25DF16010553002B64CD /* taskPoker.cpp in Sources */,
 				D00D1BF51609E37D00AB1385 /* taskDig.cpp in Sources */,
 				D00D1BF81609E4A000AB1385 /* clod.cpp in Sources */,
-				D00D1C42160A033B00AB1385 /* clod.fsh in Sources */,
-				D00D1C43160A033B00AB1385 /* clod.vsh in Sources */,
+				D00D1C42160A033B00AB1385 /* clod_.fsh in Sources */,
+				D00D1C43160A033B00AB1385 /* clod_.vsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

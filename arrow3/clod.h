@@ -19,6 +19,10 @@ private:
     int _normalLocation;
     int _mvpMatLocation;
     int _normalMatLocation;
+    char* _blocks;
+    
+    void setBlocks(int x, int y, int z, bool b);
+    bool getBlocks(int x, int y, int z);
 };
 
 

@@ -2,6 +2,61 @@
 #include "clod.h"
 #include "lwtf/lwCamera.h"
 
+namespace{
+    GLfloat g_x[] = {
+        1.f, 0.f, 0.f,        1.0f, 0.0f, 0.0f,
+        1.f, 1.f, 0.f,         1.0f, 0.0f, 0.0f,
+        1.f, 0.f, 1.f,         1.0f, 0.0f, 0.0f,
+        1.f, 0.f, 1.f,         1.0f, 0.0f, 0.0f,
+        1.f, 1.f, 0.f,         1.0f, 0.0f, 0.0f,
+        1.f, 1.f, 1.f,          1.0f, 0.0f, 0.0f,
+    };
+    GLfloat g_x_[] = {
+        0.f, 1.f, 0.f,        -1.0f, 0.0f, 0.0f,
+        0.f, 0.f, 0.f,       -1.0f, 0.0f, 0.0f,
+        0.f, 1.f, 1.f,         -1.0f, 0.0f, 0.0f,
+        0.f, 1.f, 1.f,         -1.0f, 0.0f, 0.0f,
+        0.f, 0.f, 0.f,       -1.0f, 0.0f, 0.0f,
+        0.f, 0.f, 1.f,        -1.0f, 0.0f, 0.0f,
+    };
+    GLfloat g_y[] = {
+        1.f, 1.f, 0.f,         0.0f, 1.0f, 0.0f,
+        0.f, 1.f, 0.f,        0.0f, 1.0f, 0.0f,
+        1.f, 1.f, 1.f,          0.0f, 1.0f, 0.0f,
+        1.f, 1.f, 1.f,          0.0f, 1.0f, 0.0f,
+        0.f, 1.f, 0.f,        0.0f, 1.0f, 0.0f,
+        0.f, 1.f, 1.f,         0.0f, 1.0f, 0.0f,
+    };
+    GLfloat g_y_[] = {
+        0.f, 0.f, 0.f,       0.0f, -1.0f, 0.0f,
+        1.f, 0.f, 0.f,        0.0f, -1.0f, 0.0f,
+        0.f, 0.f, 1.f,        0.0f, -1.0f, 0.0f,
+        0.f, 0.f, 1.f,        0.0f, -1.0f, 0.0f,
+        1.f, 0.f, 0.f,        0.0f, -1.0f, 0.0f,
+        1.f, 0.f, 1.f,         0.0f, -1.0f, 0.0f,
+    };
+    GLfloat g_z[] = {
+        1.f, 1.f, 1.f,          0.0f, 0.0f, 1.0f,
+        0.f, 1.f, 1.f,         0.0f, 0.0f, 1.0f,
+        1.f, 0.f, 1.f,         0.0f, 0.0f, 1.0f,
+        1.f, 0.f, 1.f,         0.0f, 0.0f, 1.0f,
+        0.f, 1.f, 1.f,         0.0f, 0.0f, 1.0f,
+        0.f, 0.f, 1.f,        0.0f, 0.0f, 1.0f,
+    };
+    GLfloat g_z_[] = {
+        1.f, 0.f, 0.f,        0.0f, 0.0f, -1.0f,
+        0.f, 0.f, 0.f,       0.0f, 0.0f, -1.0f,
+        1.f, 1.f, 0.f,         0.0f, 0.0f, -1.0f,
+        1.f, 1.f, 0.f,         0.0f, 0.0f, -1.0f,
+        0.f, 0.f, 0.f,       0.0f, 0.0f, -1.0f,
+        0.f, 1.f, 0.f,        0.0f, 0.0f, -1.0f
+    };
+    
+    const int VERTICES_BUF_SIZE = 36 * 10000;
+    float g_vertices_BUF[VERTICES_BUF_SIZE];
+    float vertice_num = 0;
+}
+
 Clod::Clod(int xsize, int ysize, int zsise){
     _xsize = xsize;
     _ysize = ysize;
@@ -11,15 +66,31 @@ Clod::Clod(int xsize, int ysize, int zsise){
     _pCam->lookat(5, 5, 5, 0, 0, 0, 0, 1, 0);
     _pCam->perspective(M_PI/3.f, 2.0f/3.0f, 1, 1000);
     
-    _pShaderProg = lw::ShaderProgramRes::create("clod.vsh", "clod.fsh");
+    _pShaderProg = lw::ShaderProgramRes::create("clod_.vsh", "clod_.fsh");
     _posLocation = _pShaderProg->getAttribLocation("position");
     _normalLocation = _pShaderProg->getAttribLocation("normal");
     _mvpMatLocation = _pShaderProg->getUniformLocation("modelViewProjectionMatrix");
     _normalMatLocation =  _pShaderProg->getUniformLocation("normalMatrix");
+    
+    int blocksNum = xsize * ysize * zsise;
+    int sz = blocksNum/8+1;
+    _blocks = new char[sz];
+    memset(_blocks, 0xff, sz);
+    
+    setBlocks(1, 2, 3, false);
+    
+    bool b = getBlocks(1, 2, 3);
+    b = getBlocks(2, 2, 2);
+    b = getBlocks(3, 3, 3);
+    setBlocks(1, 2, 3, true);
+    b = getBlocks(1, 2, 3);
+    setBlocks(3, 3, 3, false);
+    b = getBlocks(3, 3, 3);
 }
 
 Clod::~Clod(){
     delete _pCam;
+    delete [] _blocks;
 }
 
 void Clod::draw(){
@@ -106,5 +177,29 @@ void Clod::draw(){
     _pShaderProg->use();
     
     glDrawArrays(GL_TRIANGLES, 0, sizeof(gCubeVertexData)/24);
+}
+
+void Clod::setBlocks(int x, int y, int z, bool b){
+    if ( x >= _xsize || y >= _ysize || z >= _zsize ){
+        lwerror("invalid idx");
+        return;
+    }
+    int idx = _xsize*_zsize*y+_xsize*z+x;
+    char& c = _blocks[idx/8];
+    if ( b ){
+        c |= (1 << (idx%8));
+    }else{
+        c &= (~(char)(1<<(idx%8)));
+    }
+}
+
+bool Clod::getBlocks(int x, int y, int z){
+    if ( x >= _xsize || y >= _ysize || z >= _zsize ){
+        lwerror("invalid idx");
+        return false;
+    }
+    int idx = _xsize*_zsize*y+_xsize*z+x;
+    char& c = _blocks[idx/8];
+    return c & ((char)(1 << (idx%8)));
 }
 
