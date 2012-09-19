@@ -1,0 +1,5 @@
+<images>
+	<image name="hotimg1_2x.png" file="x_2x-0.png" x="0" y ="0" w="480" h="320" />
+	<image name="YNFlower_2x.png" file="x_2x-0.png" x="0" y ="320" w="256" h="64" />
+	<image name="goalKeeper_2x.png" file="x_2x-0.png" x="256" y ="320" w="64" h="64" />
+</images>

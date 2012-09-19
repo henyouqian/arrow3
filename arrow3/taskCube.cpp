@@ -5,9 +5,10 @@
 #include "taskPoker.h"
 
 void TaskCube::vBegin(){
-    _pSpt = lw::Sprite::create("girl0.png");
+    _pSpt = lw::Sprite::createFromFile("girl0.png");
     _pSpt->setAnchor(160.f, 240.f);
     _pSpt->setPos(160, 240.f);
+    //_pSpt->setUV(0, 0, 320, 480);
     _pSpt->setBlendMode(lw::BLEND_ADD);
     //_pSpt->setUV(100, 100, 20, 20);
     //_pSpt->setSize(100.f, 100.f);
@@ -16,8 +17,8 @@ void TaskCube::vBegin(){
     
     _pSnd = lw::SoundSource::create("success.wav", 2, false);
     
-    _pBtn = lw::Button::create(this, NULL, "girl0.png", 100, 100, 100, 100, 130, 100, 100, 100);
-    _pCheckbox = lw::Checkbox::create(this, NULL, "girl0.png", 100, 100, 100, 100, 130, 100, 100, 100);
+    _pBtn = lw::Button::create(this, NULL, "girl0.png", 100, 100, 130, 100, 100, 100, 100, 100);
+    _pCheckbox = lw::Checkbox::create(this, NULL, "girl0.png", 100, 100, 130, 100, 100, 100, 100, 100);
     _pCheckbox->setPos(200, 0);
     
     _pSptPod = new SpritePod("fruit.pod", "apple");
@@ -44,6 +45,7 @@ void TaskCube::vBegin(){
     _pLabel = lw::LabelBM::create("a.fnt");
     _pLabel->setAlign(lw::ALIGN_TOP_MID);
     _pLabel->setText("我靠\nasdakjl");
+    _pLabel->setColor(lw::COLOR_BLACK);
     _pLabel->setPos(200, 200);
     _pLabel->setRotate(M_PI/3);
     _pLabel->setScale(.5f, 2.f);
@@ -67,7 +69,7 @@ void TaskCube::vMain(){
     _pWorld->Step(1.f/60.f, 8, 3);
     
     static float f = 0;
-    f += .1f;
+    f += .01f;
     _pLabel->setRotate(f);
 }
 
@@ -75,7 +77,7 @@ void TaskCube::vDraw(){
     glClearColor(0.65f, 0.65f, 0.65f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    _t+=.1f;
+    _t+=.01f;
     float s = sinf(_t);
     _pSpt->setRotate(_t*.1f);
     _pSpt->setScale(s, s);
@@ -109,6 +111,7 @@ void TaskCube::vClick(lw::Button* pButton){
 }
 
 void TaskCube::vCheck(lw::Checkbox* pCb){
-    stop();
-    TaskPoker::s().start();
+    switchTo(TaskPoker::ps());
+    //stop();
+    //TaskPoker::s().start();
 }

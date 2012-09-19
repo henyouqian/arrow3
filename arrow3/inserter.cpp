@@ -22,7 +22,7 @@ void Inserter::draw(){
 //=======================================
 RayInserter::RayInserter(const char *file, float u, float v, float w, float h, float ancX, float ancY)
 :_speed(10.f){
-    _pSpt = lw::Sprite::create(file);
+    _pSpt = lw::Sprite::createFromFile(file);
     _pSpt->setUV(u, v, w, h);
     _pSpt->setAnchor(ancX, ancY);
 }

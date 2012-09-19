@@ -18,6 +18,12 @@
 	if (self) {
         self.multipleTouchEnabled = TRUE;
         inTouchEnd = false;
+        
+        CGRect rect_screen = [[UIScreen mainScreen]bounds];
+        CGSize size_screen = rect_screen.size;
+        
+        CGFloat scale_screen = [UIScreen mainScreen].scale;
+        NSLog(@"%f, %f, %f", size_screen.width, size_screen.height, scale_screen);
     }
     
     return self;

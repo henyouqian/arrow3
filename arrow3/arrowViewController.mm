@@ -229,7 +229,6 @@ GLfloat gCubeVertexData[216] =
 //    
 //    _rotation += self.timeSinceLastUpdate * 0.5f;
     
-    lw::App::s().setViewSize(self.view.bounds.size.width, self.view.bounds.size.height);
     lw::App::s().main();
 }
 

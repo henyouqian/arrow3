@@ -18,30 +18,16 @@
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "0"
-         filePath = "/Users/liwei/Documents/dev2012/lwtf/lwtf/lwHTTPClient.mm"
-         timestampString = "369079178.167734"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "100"
-         endingLineNumber = "100"
-         landmarkName = "-connection:didFailWithError:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/liwei/Documents/dev2012/lwtf/lwtf/UI/lwCheckbox.cpp"
-         timestampString = "369156102.263408"
+         timestampString = "369600683.121714"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "68"
-         endingLineNumber = "68"
+         startingLineNumber = "117"
+         endingLineNumber = "117"
          landmarkName = "Checkbox::vEvent(const lw::TouchEvent&amp; evt)"
          landmarkType = "5">
       </FileBreakpoint>
