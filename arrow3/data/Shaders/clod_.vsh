@@ -7,21 +7,17 @@
 //
 
 attribute vec4 position;
-attribute vec3 normal;
-
 varying lowp vec4 colorVarying;
-
 uniform mat4 modelViewProjectionMatrix;
-uniform mat3 normalMatrix;
 
 void main()
 {
-    vec3 worldNormal = normalize(normalMatrix * normal);
-    vec3 lightPosition = vec3(0.3, 1.0, 0.6);
     vec4 diffuseColor = vec4(0.4, 0.4, 1.0, 1.0);
     
-    float nDotVP = max(0.0, dot(worldNormal, normalize(lightPosition)));
-                 
-    colorVarying = diffuseColor * nDotVP;
-    gl_Position = modelViewProjectionMatrix * position;
+    float bright = position.w;
+    colorVarying = diffuseColor*bright;
+    
+    vec4 pos = position;
+    pos.w = 1.0;
+    gl_Position = modelViewProjectionMatrix * pos;
 }

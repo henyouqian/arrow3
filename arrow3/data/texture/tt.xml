@@ -1,0 +1,16 @@
+<images>
+	<image name="hotimg1.png" file="tt-0.png" x="0" y ="0" w="240" h="160" />
+	<image name="hotimg1_2x.png" file="tt-0_2x.png" x="0" y ="0" w="480" h="320" />
+	<image name="YNFlower.png" file="tt-0.png" x="0" y ="160" w="128" h="32" />
+	<image name="YNFlower_2x.png" file="tt-0_2x.png" x="0" y ="320" w="256" h="64" />
+	<image name="btn_play_down.png" file="tt-0.png" x="0" y ="192" w="58" h="58" />
+	<image name="btn_play_down_2x.png" file="tt-0_2x.png" x="0" y ="384" w="116" h="116" />
+	<image name="btn_play_up.png" file="tt-0.png" x="58" y ="192" w="58" h="58" />
+	<image name="btn_play_up_2x.png" file="tt-0_2x.png" x="116" y ="384" w="116" h="116" />
+	<image name="goalKeeper.png" file="tt-0.png" x="128" y ="160" w="32" h="32" />
+	<image name="goalKeeper_2x.png" file="tt-0_2x.png" x="256" y ="320" w="64" h="64" />
+	<image name="btn9_common_down.png" file="tt-0.png" x="0" y ="250" w="5" h="5" />
+	<image name="btn9_common_down_2x.png" file="tt-0_2x.png" x="0" y ="500" w="10" h="10" />
+	<image name="btn9_common_up.png" file="tt-0.png" x="5" y ="250" w="5" h="5" />
+	<image name="btn9_common_up_2x.png" file="tt-0_2x.png" x="10" y ="500" w="10" h="10" />
+</images>

@@ -13,6 +13,11 @@
 		D00D1C43160A033B00AB1385 /* clod_.vsh in Sources */ = {isa = PBXBuildFile; fileRef = D00D1C41160A033B00AB1385 /* clod_.vsh */; };
 		D00D1C44160A03EA00AB1385 /* clod_.fsh in Resources */ = {isa = PBXBuildFile; fileRef = D00D1C40160A033B00AB1385 /* clod_.fsh */; };
 		D00D1C45160A03EA00AB1385 /* clod_.vsh in Resources */ = {isa = PBXBuildFile; fileRef = D00D1C41160A033B00AB1385 /* clod_.vsh */; };
+		D01AC7DE160CD0BD00FF98AA /* podModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D01AC7DC160CD0BD00FF98AA /* podModel.cpp */; };
+		D01AC7ED160CF8B000FF98AA /* Scene.pod in Resources */ = {isa = PBXBuildFile; fileRef = D01AC7EC160CF8B000FF98AA /* Scene.pod */; };
+		D01AC7F0160CF8DC00FF98AA /* tex_arm.pvr in Resources */ = {isa = PBXBuildFile; fileRef = D01AC7EE160CF8DC00FF98AA /* tex_arm.pvr */; };
+		D01AC7F1160CF8DC00FF98AA /* tex_base.pvr in Resources */ = {isa = PBXBuildFile; fileRef = D01AC7EF160CF8DC00FF98AA /* tex_base.pvr */; };
+		D021FBAA160E1BB5000B212E /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D021FBA9160E1BB5000B212E /* Default@2x.png */; };
 		D03087B215EA665C0031D5D4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D03087B015EA66440031D5D4 /* OpenAL.framework */; };
 		D04B25C615FFB13B002B64CD /* httpMsg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D04B25C415FFB13B002B64CD /* httpMsg.cpp */; };
 		D04B25DF16010553002B64CD /* taskPoker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D04B25DD16010551002B64CD /* taskPoker.cpp */; };
@@ -21,6 +26,10 @@
 		D05D2D3E16065B9C004EAFD5 /* tt-0_2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D05D2D3B16065B9C004EAFD5 /* tt-0_2x.png */; };
 		D05D2D4016065B9C004EAFD5 /* tt.xml in Resources */ = {isa = PBXBuildFile; fileRef = D05D2D3D16065B9C004EAFD5 /* tt.xml */; };
 		D05D2D4216065DDD004EAFD5 /* tt-0.png in Resources */ = {isa = PBXBuildFile; fileRef = D05D2D4116065DDD004EAFD5 /* tt-0.png */; };
+		D05D4DE2160D009F00EE4ABB /* pod.fsh in Sources */ = {isa = PBXBuildFile; fileRef = D05D4DE0160D009F00EE4ABB /* pod.fsh */; };
+		D05D4DE3160D009F00EE4ABB /* pod.vsh in Sources */ = {isa = PBXBuildFile; fileRef = D05D4DE1160D009F00EE4ABB /* pod.vsh */; };
+		D05D4DE4160D00DB00EE4ABB /* pod.fsh in Resources */ = {isa = PBXBuildFile; fileRef = D05D4DE0160D009F00EE4ABB /* pod.fsh */; };
+		D05D4DE5160D00DB00EE4ABB /* pod.vsh in Resources */ = {isa = PBXBuildFile; fileRef = D05D4DE1160D009F00EE4ABB /* pod.vsh */; };
 		D066F56115F539D7003170B5 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D066F55F15F539AE003170B5 /* AVFoundation.framework */; };
 		D0A82C4115F3D2BD00417BF1 /* a.fnt in Resources */ = {isa = PBXBuildFile; fileRef = D0A82C3F15F3D2BD00417BF1 /* a.fnt */; };
 		D0A82C4215F3D2BD00417BF1 /* a.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A82C4015F3D2BD00417BF1 /* a.png */; };
@@ -96,6 +105,12 @@
 		D00D1BF71609E4A000AB1385 /* clod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clod.h; sourceTree = "<group>"; };
 		D00D1C40160A033B00AB1385 /* clod_.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = clod_.fsh; sourceTree = "<group>"; };
 		D00D1C41160A033B00AB1385 /* clod_.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = clod_.vsh; sourceTree = "<group>"; };
+		D01AC7DC160CD0BD00FF98AA /* podModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = podModel.cpp; sourceTree = "<group>"; };
+		D01AC7DD160CD0BD00FF98AA /* podModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = podModel.h; sourceTree = "<group>"; };
+		D01AC7EC160CF8B000FF98AA /* Scene.pod */ = {isa = PBXFileReference; lastKnownFileType = file; path = Scene.pod; sourceTree = "<group>"; };
+		D01AC7EE160CF8DC00FF98AA /* tex_arm.pvr */ = {isa = PBXFileReference; lastKnownFileType = file; path = tex_arm.pvr; sourceTree = "<group>"; };
+		D01AC7EF160CF8DC00FF98AA /* tex_base.pvr */ = {isa = PBXFileReference; lastKnownFileType = file; path = tex_base.pvr; sourceTree = "<group>"; };
+		D021FBA9160E1BB5000B212E /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		D03087B015EA66440031D5D4 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		D04B25C415FFB13B002B64CD /* httpMsg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = httpMsg.cpp; sourceTree = "<group>"; };
 		D04B25C515FFB13B002B64CD /* httpMsg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = httpMsg.h; sourceTree = "<group>"; };
@@ -108,6 +123,8 @@
 		D05D2D3B16065B9C004EAFD5 /* tt-0_2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tt-0_2x.png"; sourceTree = "<group>"; };
 		D05D2D3D16065B9C004EAFD5 /* tt.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = tt.xml; sourceTree = "<group>"; };
 		D05D2D4116065DDD004EAFD5 /* tt-0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tt-0.png"; sourceTree = "<group>"; };
+		D05D4DE0160D009F00EE4ABB /* pod.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = pod.fsh; sourceTree = "<group>"; };
+		D05D4DE1160D009F00EE4ABB /* pod.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = pod.vsh; sourceTree = "<group>"; };
 		D066F55F15F539AE003170B5 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D0A82C3F15F3D2BD00417BF1 /* a.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = a.fnt; sourceTree = "<group>"; };
 		D0A82C4015F3D2BD00417BF1 /* a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = a.png; sourceTree = "<group>"; };
@@ -194,6 +211,8 @@
 		D0ABF58115ED26E0008CFDD8 /* arrow3 */ = {
 			isa = PBXGroup;
 			children = (
+				D01AC7DC160CD0BD00FF98AA /* podModel.cpp */,
+				D01AC7DD160CD0BD00FF98AA /* podModel.h */,
 				D00D1BF61609E4A000AB1385 /* clod.cpp */,
 				D00D1BF71609E4A000AB1385 /* clod.h */,
 				D00D1BF31609E37D00AB1385 /* taskDig.cpp */,
@@ -231,6 +250,7 @@
 		D0ABF58915ED26E0008CFDD8 /* data */ = {
 			isa = PBXGroup;
 			children = (
+				D021FBA9160E1BB5000B212E /* Default@2x.png */,
 				D0ABF58A15ED26E0008CFDD8 /* model */,
 				D0ABF58D15ED26E0008CFDD8 /* Shaders */,
 				D0ABF59315ED26E0008CFDD8 /* sound */,
@@ -244,6 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				D0ABF58B15ED26E0008CFDD8 /* fruit.pod */,
+				D01AC7EC160CF8B000FF98AA /* Scene.pod */,
 				D0ABF58C15ED26E0008CFDD8 /* newton.pod */,
 			);
 			path = model;
@@ -252,6 +273,8 @@
 		D0ABF58D15ED26E0008CFDD8 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				D05D4DE0160D009F00EE4ABB /* pod.fsh */,
+				D05D4DE1160D009F00EE4ABB /* pod.vsh */,
 				D00D1C40160A033B00AB1385 /* clod_.fsh */,
 				D00D1C41160A033B00AB1385 /* clod_.vsh */,
 				D0ABF58E15ED26E0008CFDD8 /* sprite.fsh */,
@@ -272,6 +295,8 @@
 		D0ABF59615ED26E0008CFDD8 /* texture */ = {
 			isa = PBXGroup;
 			children = (
+				D01AC7EE160CF8DC00FF98AA /* tex_arm.pvr */,
+				D01AC7EF160CF8DC00FF98AA /* tex_base.pvr */,
 				D05D2D3B16065B9C004EAFD5 /* tt-0_2x.png */,
 				D05D2D4116065DDD004EAFD5 /* tt-0.png */,
 				D05D2D3D16065B9C004EAFD5 /* tt.xml */,
@@ -404,6 +429,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D05D4DE4160D00DB00EE4ABB /* pod.fsh in Resources */,
+				D05D4DE5160D00DB00EE4ABB /* pod.vsh in Resources */,
 				D00D1C44160A03EA00AB1385 /* clod_.fsh in Resources */,
 				D00D1C45160A03EA00AB1385 /* clod_.vsh in Resources */,
 				D0ABF5BE15ED3025008CFDD8 /* sprite.fsh in Resources */,
@@ -427,6 +454,10 @@
 				D05D2D3E16065B9C004EAFD5 /* tt-0_2x.png in Resources */,
 				D05D2D4016065B9C004EAFD5 /* tt.xml in Resources */,
 				D05D2D4216065DDD004EAFD5 /* tt-0.png in Resources */,
+				D01AC7ED160CF8B000FF98AA /* Scene.pod in Resources */,
+				D01AC7F0160CF8DC00FF98AA /* tex_arm.pvr in Resources */,
+				D01AC7F1160CF8DC00FF98AA /* tex_base.pvr in Resources */,
+				D021FBAA160E1BB5000B212E /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,6 +485,9 @@
 				D00D1BF81609E4A000AB1385 /* clod.cpp in Sources */,
 				D00D1C42160A033B00AB1385 /* clod_.fsh in Sources */,
 				D00D1C43160A033B00AB1385 /* clod_.vsh in Sources */,
+				D01AC7DE160CD0BD00FF98AA /* podModel.cpp in Sources */,
+				D05D4DE2160D009F00EE4ABB /* pod.fsh in Sources */,
+				D05D4DE3160D009F00EE4ABB /* pod.vsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

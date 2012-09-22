@@ -34,6 +34,7 @@
     #include "Box2D/Box2D.h"
 
     #include <sstream>
+    #include <set>
 #endif
 
 extern const float B2_SCALE; 
