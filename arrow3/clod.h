@@ -51,6 +51,15 @@ private:
     
     void buildMc();
     void marchCube(int ix, int iy, int iz);
+    
+    union VtxIdx{
+        VtxIdx():idx(0){}
+        struct{
+            char x, y, z;
+        };
+        int idx;
+    };
+    std::map<int, cml::Vector3> _norms;
 };
 
 

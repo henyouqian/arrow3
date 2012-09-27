@@ -787,13 +787,34 @@ float fGetOffset(float fValue1, float fValue2, float fValueDesired)
 
 void Clod::buildMc(){
     _qVertices.clear();
+    _norms.clear();
     
     for ( int ix = -1; ix < _xsize; ++ix ){
     for ( int iy = -1; iy < _ysize; ++iy ){
     for ( int iz = -1; iz < _zsize; ++iz ){
         marchCube(ix, iy, iz);
     }}}
+    
+    std::map<int, cml::Vector3>::iterator it = _norms.begin();
+    std::map<int, cml::Vector3>::iterator itend = _norms.end();
+    for ( ; it != itend; ++it ){
+        it->second.normalize();
+    }
+    
+    VtxIdx idx;
+    for ( int i = 0; i < _qVertices.size(); i += 6 ){
+        idx.x = (char)(_qVertices[i]*2.f);
+        idx.y = (char)(_qVertices[i+1]*2.f);
+        idx.z = (char)(_qVertices[i+2]*2.f);
+        std::map<int, cml::Vector3>::iterator it = _norms.find(idx.idx);
+        cml::Vector3 &norm = it->second;
+        _qVertices[i+3] = norm[0];
+        _qVertices[i+4] = norm[1];
+        _qVertices[i+5] = norm[2];
+    }
 }
+
+
 
 void Clod::marchCube(int ix, int iy, int iz){
     bool afCubeValue[8];
@@ -880,6 +901,18 @@ void Clod::marchCube(int ix, int iy, int iz){
             _qVertices.push_back(normal[0]);
             _qVertices.push_back(normal[1]);
             _qVertices.push_back(normal[2]);
+            VtxIdx idx;
+            idx.x = (char)(vtx[i][0]*2.f);
+            idx.y = (char)(vtx[i][1]*2.f);
+            idx.z = (char)(vtx[i][2]*2.f);
+            
+            std::map<int, cml::Vector3>::iterator it = _norms.find(idx.idx);
+            if ( it == _norms.end() ){
+                _norms[idx.idx] = normal;
+            }else{
+                _norms[idx.idx] += normal;
+            }
         }
+        
     }
 }

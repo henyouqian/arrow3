@@ -10,5 +10,16 @@
             </PersistentString>
          </PersistentStrings>
       </ContextState>
+      <ContextState
+         contextName = "Clod::buildMc():clod.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "_qVertices[i]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Clod::marchCube(int, int, int):clod.cpp">
+      </ContextState>
    </ContextStates>
 </VariablesViewState>

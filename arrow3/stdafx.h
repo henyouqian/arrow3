@@ -35,6 +35,7 @@
 
     #include <sstream>
     #include <set>
+    #include <map>
 #endif
 
 extern const float B2_SCALE; 
