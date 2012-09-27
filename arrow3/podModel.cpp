@@ -75,17 +75,12 @@ PodModel::PodModel(const char *podFile){
 			}
 		}
 	}
-    
-    //shader
-    _pShader = lw::ShaderProgramRes::create("pod.vsh", "pod.fsh");
-    if ( !_pShader ){
-        lwerror("lw::ShaderProgramRes::create error");
-        return;
-    }
-    _posLoc = _pShader->getAttribLocation("a_position");
-    _uvLoc = _pShader->getAttribLocation("a_uv");
-    _mvpLoc = _pShader->getUniformLocation("u_mvpmat");
-    _samplerLoc = _pShader->getUniformLocation("u_texture");
+
+    _pEffects = lw::EffectsRes::create("texture.lwfx");
+    _posLoc = _pEffects->getLocationFromSemantic(lw::EffectsRes::POSITION);
+    _uvLoc = _pEffects->getLocationFromSemantic(lw::EffectsRes::UV0);
+    _mvpLoc = _pEffects->getLocationFromSemantic(lw::EffectsRes::WORLDVIEWPROJ);
+    _samplerLoc = _pEffects->getUniformLocation("u_texture");
 }
 
 PodModel::~PodModel(){
@@ -96,11 +91,11 @@ PodModel::~PodModel(){
         glDeleteBuffers(_vbosNum, _indexVbos);
         delete [] _indexVbos;
     glDeleteTextures(_pod.nNumMaterial, &m_puiTextureIDs[0]);
-    _pShader->release();
+    _pEffects->release();
 }
 
 void PodModel::draw(){
-    _pShader->use();
+    _pEffects->use();
     
     for (unsigned int i = 0; i < _pod.nNumMeshNode; ++i)
 	{
@@ -112,6 +107,8 @@ void PodModel::draw(){
         
         PVRTMat4 mScale = PVRTMat4::Scale(.07f, .07f, .07f);
         mWorld = mScale * mWorld;
+        PVRTMat4 mTrans = PVRTMat4::Translation(0.f, 2.f, 0.f);
+        mWorld = mTrans * mWorld;
         
 		// Pass the model-view-projection matrix (MVP) to the shader to transform the vertices
 		PVRTMat4 mMVP = _viewProjMat * mWorld;
@@ -123,7 +120,7 @@ void PodModel::draw(){
 		if(Node.nIdxMaterial != -1)
 			uiTex = m_puiTextureIDs[Node.nIdxMaterial];
         
-		//glBindTexture(GL_TEXTURE_2D, uiTex);
+		glBindTexture(GL_TEXTURE_2D, uiTex);
         
 		/*
          Now that the model-view matrix is set and the materials ready,

@@ -112,9 +112,10 @@ Clod::Clod(int xsize, int ysize, int zsise){
     //_pCam->lookat(20, 20, 20, 0, 0, 0, 0, 1, 0);
     _pCam->perspective(M_PI/3.f, 2.0f/3.0f, 1, 1000);
     
-    _pShaderProg = lw::ShaderProgramRes::create("clod_.vsh", "clod_.fsh");
-    _posLocation = _pShaderProg->getAttribLocation("position");
-    _mvpMatLocation = _pShaderProg->getUniformLocation("modelViewProjectionMatrix");
+    _pEffect = lw::EffectsRes::create("clod.lwfx");
+    _posLocation = _pEffect->getLocationFromSemantic(lw::EffectsRes::POSITION);
+    _mvpMatLocation = _pEffect->getLocationFromSemantic(lw::EffectsRes::WORLDVIEWPROJ);
+    
     
     int blocksNum = xsize * ysize * zsise;
     int sz = blocksNum/8+1;
@@ -164,7 +165,7 @@ void Clod::draw(){
                         m(1,0), m(1,1), m(1,2), 
                         m(2,0), m(2,1), m(2,2));
     
-    _pShaderProg->use();
+    _pEffect->use();
     glUniformMatrix4fv(_mvpMatLocation, 1, false, mvp.data());
     
     glDisable(GL_TEXTURE_2D);
@@ -381,6 +382,45 @@ void Clod::updateCam(){
     _pModel->setViewProj(m);
 }
 
+//bool Clod::event(const lw::TouchEvent& evt){
+//    if ( evt.type == lw::TouchEvent::TOUCH ){
+//        int idx = pick(evt.x, evt.y);
+//        if ( idx >= 0 ){
+//            std::vector<int> idxs;
+//            idxs.push_back(idx);
+//            remove(idxs);
+//        }
+//        if ( _evts.size() < 2 ){
+//            _evts.push_back(&evt);
+//            if ( _evts.size() == 2 ){
+//                cml::Vector2 v1(_evts[0]->x, _evts[0]->y);
+//                cml::Vector2 v2(_evts[1]->x, _evts[1]->y);
+//                cml::Vector2 dv = v1 - v2;
+//                _touchDist = dv.length();
+//            }
+//        }
+//    }else if ( evt.type == lw::TouchEvent::MOVE ){
+//        if ( _evts.size() == 2 && (&evt == _evts[0] || &evt == _evts[1]) ){
+//            _updateCam = true;
+//            const float f = 0.002f;
+//            _camRotY += (evt.x - evt.prx)*f;
+//            _camRotX += (evt.y - evt.pry)*f;
+//            float lim = (float)M_PI*.5f*.95f;
+//            _camRotX = cml::clamp(_camRotX, -lim, lim);
+//        }
+//    }else if ( evt.type == lw::TouchEvent::UNTOUCH ){
+//        std::vector<const lw::TouchEvent*>::iterator it = _evts.begin();
+//        std::vector<const lw::TouchEvent*>::iterator itend = _evts.end();
+//        for ( ; it != itend; ++it ){
+//            if ( *it == &evt ){
+//                _evts.erase(it);
+//                break;
+//            }
+//        }
+//    }
+//    return false;
+//}
+
 bool Clod::event(const lw::TouchEvent& evt){
     if ( evt.type == lw::TouchEvent::TOUCH ){
         int idx = pick(evt.x, evt.y);
@@ -389,34 +429,15 @@ bool Clod::event(const lw::TouchEvent& evt){
             idxs.push_back(idx);
             remove(idxs);
         }
-        if ( _evts.size() < 2 ){
-            _evts.push_back(&evt);
-            if ( _evts.size() == 2 ){
-                cml::Vector2 v1(_evts[0]->x, _evts[0]->y);
-                cml::Vector2 v2(_evts[1]->x, _evts[1]->y);
-                cml::Vector2 dv = v1 - v2;
-                _touchDist = dv.length();
-            }
-        }
     }else if ( evt.type == lw::TouchEvent::MOVE ){
-        if ( _evts.size() == 2 && (&evt == _evts[0] || &evt == _evts[1]) ){
-            _updateCam = true;
-            const float f = 0.002f;
-            _camRotY += (evt.x - evt.prx)*f;
-            _camRotX += (evt.y - evt.pry)*f;
-            float lim = (float)M_PI*.5f*.95f;
-            _camRotX = cml::clamp(_camRotX, -lim, lim);
-        }
+        _updateCam = true;
+        const float f = 0.002f*2.f;
+        _camRotY += (evt.x - evt.prx)*f;
+        _camRotX += (evt.y - evt.pry)*f;
+        float lim = (float)M_PI*.5f*.95f;
+        _camRotX = cml::clamp(_camRotX, -lim, lim);
     }else if ( evt.type == lw::TouchEvent::UNTOUCH ){
-        std::vector<const lw::TouchEvent*>::iterator it = _evts.begin();
-        std::vector<const lw::TouchEvent*>::iterator itend = _evts.end();
-        for ( ; it != itend; ++it ){
-            if ( *it == &evt ){
-                _evts.erase(it);
-                break;
-            }
-        }
+        
     }
     return false;
 }
-

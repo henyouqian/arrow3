@@ -23,7 +23,7 @@ private:
     int _xsize, _ysize, _zsize;
     float _offsetX, _offsetY, _offsetZ;
     lw::Camera *_pCam;
-    lw::ShaderProgramRes* _pShaderProg;
+    lw::EffectsRes *_pEffect;
     int _posLocation;
     int _mvpMatLocation;
     char* _blocks;

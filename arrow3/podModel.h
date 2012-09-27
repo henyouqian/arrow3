@@ -18,7 +18,7 @@ private:
     GLuint* m_puiTextureIDs;
     int _vbosNum;
     
-    lw::ShaderProgramRes* _pShader;
+    lw::EffectsRes* _pEffects;
     
     int _posLoc;
     int _uvLoc;

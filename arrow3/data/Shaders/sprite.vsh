@@ -6,7 +6,7 @@
 //  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //
 
-attribute vec4 a_position;
+attribute vec3 a_position;
 attribute vec2 a_uv;
 
 uniform mat4 u_mvpmat;
@@ -15,6 +15,6 @@ varying highp vec2 v_texCoord;
 
 void main()
 {
-    gl_Position = u_mvpmat * a_position;
+    gl_Position = u_mvpmat * vec4(a_position, 1.0);
     v_texCoord = a_uv;
 }

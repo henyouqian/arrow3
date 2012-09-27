@@ -158,11 +158,11 @@ void TaskPoker::vBegin(){
     _single = 0;
     _playNum = 0;
     
-    _pBtn = lw::Button9::create(this, NULL, _af("btn9_common_up.png"), _af("btn9_common_down.png"), _af("btn9_common_up.png"), _as(2), _as(1), _as(2), _as(2), _as(1), _as(2), "a.fnt");
-    _pBtn->setPos(_as(160), _as(240));
-    _pBtn->setSize(_as(100), _as(100));
-    _pBtn->getLabel()->setText("abcABC\n我靠");
-    _pBtn->getLabel()->setColor(lw::COLOR_BLACK);
+//    _pBtn = lw::Button9::create(this, NULL, _af("btn9_common_up.png"), _af("btn9_common_down.png"), _af("btn9_common_up.png"), _as(2), _as(1), _as(2), _as(2), _as(1), _as(2), "a.fnt");
+//    _pBtn->setPos(_as(160), _as(240));
+//    _pBtn->setSize(_as(100), _as(100));
+//    _pBtn->getLabel()->setText("abcABC\n我靠");
+//    _pBtn->getLabel()->setColor(lw::COLOR_BLACK);
 //    
 //    _pLabel = lw::LabelBM::create(_af("a.fnt"));
 //    _pLabel->setPos(100, 100);
@@ -171,7 +171,7 @@ void TaskPoker::vBegin(){
     //_pLabel->setAlign(lw::ALIGN_MID_MID);
     //_pLabel->setScale(0.5f, 0.5f);
     
-//    _pSpt = lw::Sprite::createFromAtlas(_as("goalKeeper.png"));
+    _pSpt = lw::Sprite::createFromAtlas(_af("goalKeeper.png"));
     //_pSpt->setUV(_as(0), _as(160), _as(22), _as(22));
     
 //    _pBtnPlay = lw::Button::create(this, NULL, _af("btn_play_up.png"), _af("btn_play_down.png"), _af("btn_play_up.png"));
@@ -179,9 +179,9 @@ void TaskPoker::vBegin(){
 }
 
 void TaskPoker::vEnd(){
-    delete _pBtn;
+//    delete _pBtn;
 //    delete _pLabel;
-//    delete _pSpt;
+    delete _pSpt;
 //    delete _pBtnPlay;
 }
 
@@ -228,7 +228,7 @@ void TaskPoker::vDraw(){
 //    _pLabel->setPos(f, f);
 //    //_pLabel->setScale(f+1.f, f+1.f);
 //    _pLabel->draw();
-//    _pSpt->draw();
+    _pSpt->draw();
 }
 
 bool TaskPoker::vEvent(const lw::TouchEvent& evt){

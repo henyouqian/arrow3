@@ -29,7 +29,7 @@
     #include "lwtf/lwHTTPClient.h"
     #include "lwtf/UI/lwButton.h"
     #include "lwtf/UI/lwCheckbox.h"
-    #include "lwtf/lwShader.h"
+    #include "lwtf/lwEffects.h"
 
     #include "Box2D/Box2D.h"
 
