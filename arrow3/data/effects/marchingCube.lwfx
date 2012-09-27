@@ -1,0 +1,28 @@
+<lwfx>
+    <vs>
+        attribute vec3 position;
+        attribute vec3 normal;
+        varying lowp vec4 colorVarying;
+        uniform mat4 modelViewProjectionMatrix;
+
+        void main()
+        {
+            vec3 color = normal*0.5+0.5;
+            colorVarying = vec4(color, 1.0);
+            
+            gl_Position = modelViewProjectionMatrix * vec4(position, 1.0);
+        }
+    </vs>
+    <fs>
+        varying lowp vec4 colorVarying;
+
+        void main()
+        {
+            gl_FragColor = colorVarying;
+        }
+    </fs>
+    <attribute name="position" semantic="POSITION"/>
+    <attribute name="normal" semantic="NORMAL"/>
+    <uniform name="modelViewProjectionMatrix" semantic="WORLDVIEWPROJ"/>
+
+</lwfx>

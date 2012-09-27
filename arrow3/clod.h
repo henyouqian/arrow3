@@ -26,9 +26,16 @@ private:
     lw::EffectsRes *_pEffect;
     int _posLocation;
     int _mvpMatLocation;
+    
+    lw::EffectsRes *_pFXMarchingCube;
+    int _mcPosLoc;
+    int _mcNormLoc;
+    int _mcWvpLoc;
+    
     char* _blocks;
     std::set<int> _shellBlocks;
     std::vector<float> _vertices;
+    std::vector<float> _qVertices;
     float _camRotY, _camRotX;
     float _camDist;
     std::vector<const lw::TouchEvent*> _evts;
@@ -41,6 +48,9 @@ private:
     
     void updateFaces();
     void updateCam();
+    
+    void buildMc();
+    void marchCube(int ix, int iy, int iz);
 };
 
 
