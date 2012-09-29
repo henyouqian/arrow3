@@ -179,27 +179,28 @@ void Clod::draw(){
     glDepthMask(GL_TRUE);
     glDisable(GL_BLEND);
     
-//    _pEffect->use();
-//    glUniformMatrix4fv(_mvpMatLocation, 1, false, mvp.data());
-//    const char* p = (char*)(&_vertices[0]);
-//    glEnableVertexAttribArray(_posLocation);
-//    glVertexAttribPointer(_posLocation, 4, GL_FLOAT, GL_FALSE, 16, p);
-//    //glDrawArrays(GL_TRIANGLES, 0, _vertices.size()/4);
-//    glDisableVertexAttribArray(_posLocation);
+    const char* p;
+    _pEffect->use();
+    glUniformMatrix4fv(_mvpMatLocation, 1, false, mvp.data());
+    p = (char*)(&_vertices[0]);
+    glEnableVertexAttribArray(_posLocation);
+    glVertexAttribPointer(_posLocation, 4, GL_FLOAT, GL_FALSE, 16, p);
+    //glDrawArrays(GL_TRIANGLES, 0, _vertices.size()/4);
+    glDisableVertexAttribArray(_posLocation);
     
     _pFXMarchingCube->use();
     glUniformMatrix4fv(_mcWvpLoc, 1, false, mvp.data());
-    const char* p = (char*)(&_qVertices[0]);
+    p = (char*)(&_qVertices[0]);
     glEnableVertexAttribArray(_mcPosLoc);
-    glVertexAttribPointer(_mcPosLoc, 3, GL_FLOAT, GL_FALSE, 24, p);
+    glVertexAttribPointer(_mcPosLoc, 3, GL_FLOAT, GL_FALSE, 28, p);
     glEnableVertexAttribArray(_mcNormLoc);
-    glVertexAttribPointer(_mcNormLoc, 3, GL_FLOAT, GL_FALSE, 24, p+12);
+    glVertexAttribPointer(_mcNormLoc, 4, GL_FLOAT, GL_FALSE, 28, p+12);
     
-    glDrawArrays(GL_TRIANGLES, 0, _qVertices.size()/6);
+    glDrawArrays(GL_TRIANGLES, 0, _qVertices.size()/7);
     glDisableVertexAttribArray(_mcPosLoc);
     glDisableVertexAttribArray(_mcNormLoc);
     
-    _pModel->draw();
+    //_pModel->draw();
 }
 
 int Clod::pick(float x, float y){
@@ -225,6 +226,7 @@ int Clod::pick(float x, float y){
     ray.origin.set(camPos[0], camPos[1], camPos[2]);
     cml::Vector3 vTo(v[0], v[1], v[2]);
     ray.direction = vTo - ray.origin;
+    ray.origin = vTo;
     
     int hitIdx = -1;
     std::set<int>::iterator it = _shellBlocks.begin();
@@ -795,25 +797,90 @@ void Clod::buildMc(){
         marchCube(ix, iy, iz);
     }}}
     
-    std::map<int, cml::Vector3>::iterator it = _norms.begin();
-    std::map<int, cml::Vector3>::iterator itend = _norms.end();
+    std::map<int, NormalInfo>::iterator it = _norms.begin();
+    std::map<int, NormalInfo>::iterator itend = _norms.end();
     for ( ; it != itend; ++it ){
-        it->second.normalize();
+        it->second.normal.normalize();
+        VtxIdx idx;
+        idx.idx = it->first;
+        cml::Vector3 pos(idx.x*.5f, idx.y*.5f, idx.z*.5f);
+        cml::Vector3 normal = it->second.normal;
+        //it->second.brightness = 1.f;//calcAO(pos, normal);
+        it->second.brightness = calcAO(pos, normal);
     }
     
     VtxIdx idx;
-    for ( int i = 0; i < _qVertices.size(); i += 6 ){
+    for ( int i = 0; i < _qVertices.size(); i += 7 ){
         idx.x = (char)(_qVertices[i]*2.f);
         idx.y = (char)(_qVertices[i+1]*2.f);
         idx.z = (char)(_qVertices[i+2]*2.f);
-        std::map<int, cml::Vector3>::iterator it = _norms.find(idx.idx);
-        cml::Vector3 &norm = it->second;
+        std::map<int, NormalInfo>::iterator it = _norms.find(idx.idx);
+        cml::Vector3 &norm = it->second.normal;
         _qVertices[i+3] = norm[0];
         _qVertices[i+4] = norm[1];
         _qVertices[i+5] = norm[2];
+        _qVertices[i+6] = it->second.brightness;
     }
 }
 
+float Clod::calcAO(const cml::Vector3 &pos, const cml::Vector3 &normal){
+    cml::Vector3 origin(pos[0]-_offsetX, pos[1]-_offsetY, pos[2]-_offsetZ);
+    float ao = 0.f;
+    ao += aoRay(origin, normal);
+    
+    cml::Vector3 v;
+    if ( fabs(normal[0]) <= fabs(normal[1]) && fabs(normal[0]) <= fabs(normal[2]) ){
+        v.set(1.f, 0.f, 0.f);
+    }else if ( fabs(normal[1]) <= fabs(normal[2]) && fabs(normal[1]) <= fabs(normal[0]) ){
+        v.set(0.f, 1.f, 0.f);
+    }else{
+        v.set(0.f, 0.f, 1.f);
+    }
+    
+    cml::Vector3 rotAxis = cml::cross(normal, v);
+    rotAxis.normalize();
+    cml::Vector3 dir = normal;
+    
+    const int a = 1;
+    const int b = 4;
+    cml::Vector3 norm = normal;
+    for ( int i = 0; i < a; ++i ){
+        for ( int j = 0; j < b; ++j ){
+            float rot1 = M_PI_2/(a+1);
+            dir = cml::rotate_vector(normal, rotAxis, rot1);
+            dir.normalize();
+            float dao = aoRay(origin, dir);
+            if ( dao > 0.f ){
+                //lwinfo(dao);
+            }
+            ao += dao;
+        }
+        float rot2 = 2.f*M_PI/b;
+        rotAxis = cml::rotate_vector(rotAxis, normal, rot2);
+    }
+    
+    ao /= (float)(a*b+1);
+    ao *= .5f;
+
+    return 1.f-ao;
+}
+
+float Clod::aoRay(const cml::Vector3 &origin, const cml::Vector3 &dir){
+    cml::Vector3 v;
+    for ( float dist = 1.1f; dist <= 6; dist += 1.f ){
+        v = origin+(dir * dist);
+        int blkx = (int)floorf(v[0]);
+        int blky = (int)floorf(v[1]);
+        int blkz = (int)floorf(v[2]);
+        if ( blkx < 0 || blkx >= _xsize || blky < 0 || blky >= _ysize || blkz < 0 || blkz >= _zsize ){
+            return 0.f;
+        }
+        if ( getBlocks(blkx, blky, blkz) ){
+            return 1.f/dist;
+        }
+    }
+    return 0.f;
+}
 
 
 void Clod::marchCube(int ix, int iy, int iz){
@@ -822,9 +889,6 @@ void Clod::marchCube(int ix, int iy, int iz){
     float fOffset;
     cml::Vector3 asEdgeVertex[12];
     //cml::Vector3 asEdgeNorm[12];
-    const float hx = _xsize*.5f;
-    //const float hy = _ysize*.5f;
-    const float hz = _zsize*.5f;
     
     for(int iVertex = 0; iVertex < 8; iVertex++)
     {
@@ -857,8 +921,7 @@ void Clod::marchCube(int ix, int iy, int iz){
         //if there is an intersection on this edge
         if(iEdgeFlags & (1<<iEdge))
         {
-            fOffset = fGetOffset(afCubeValue[ a2iEdgeConnection[iEdge][0] ], 
-                                 afCubeValue[ a2iEdgeConnection[iEdge][1] ], 1.0);
+            fOffset = .5f;
             
             asEdgeVertex[iEdge][0] = ix + (a2fVertexOffset[ a2iEdgeConnection[iEdge][0] ][0]  +  fOffset * a2fEdgeDirection[iEdge][0]);
             asEdgeVertex[iEdge][1] = iy + (a2fVertexOffset[ a2iEdgeConnection[iEdge][0] ][1]  +  fOffset * a2fEdgeDirection[iEdge][1]);
@@ -880,9 +943,9 @@ void Clod::marchCube(int ix, int iy, int iz){
         {
             iVertex = a2iTriangleConnectionTable[iFlagIndex][3*iTriangle+iCorner];
             
-            vtx[iCorner][0] = asEdgeVertex[iVertex][0]-hx+.5f;
-            vtx[iCorner][1] = asEdgeVertex[iVertex][1]+.5f;
-            vtx[iCorner][2] = asEdgeVertex[iVertex][2]-hz+.5f;
+            vtx[iCorner][0] = asEdgeVertex[iVertex][0]+_offsetX+.5f;
+            vtx[iCorner][1] = asEdgeVertex[iVertex][1]+_offsetY+.5f;
+            vtx[iCorner][2] = asEdgeVertex[iVertex][2]+_offsetZ+.5f;
             
 //            _qVertices.push_back(asEdgeVertex[iVertex][0]-hx+.5f);
 //            _qVertices.push_back(asEdgeVertex[iVertex][1]+.5f);
@@ -901,16 +964,20 @@ void Clod::marchCube(int ix, int iy, int iz){
             _qVertices.push_back(normal[0]);
             _qVertices.push_back(normal[1]);
             _qVertices.push_back(normal[2]);
+            _qVertices.push_back(1.f);
             VtxIdx idx;
             idx.x = (char)(vtx[i][0]*2.f);
             idx.y = (char)(vtx[i][1]*2.f);
             idx.z = (char)(vtx[i][2]*2.f);
             
-            std::map<int, cml::Vector3>::iterator it = _norms.find(idx.idx);
+            std::map<int, NormalInfo>::iterator it = _norms.find(idx.idx);
+            NormalInfo normInfo;
+            normInfo.brightness = 1.f;
             if ( it == _norms.end() ){
-                _norms[idx.idx] = normal;
+                normInfo.normal = normal;
+                _norms[idx.idx] = normInfo;
             }else{
-                _norms[idx.idx] += normal;
+                _norms[idx.idx].normal += normal;
             }
         }
         

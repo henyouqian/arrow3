@@ -3,7 +3,8 @@
 #include "clod.h"
 
 void TaskDig::vBegin(){
-    _pClod = new Clod(15,16,15);
+    //_pClod = new Clod(3,3,3);
+    _pClod = new Clod(15,15,15);
     lw::EffectsRes* pFX = lw::EffectsRes::create("test.lwfx");
     pFX->release();
 }

@@ -50,6 +50,8 @@ private:
     void updateCam();
     
     void buildMc();
+    float calcAO(const cml::Vector3 &pos, const cml::Vector3 &normal);
+    float aoRay(const cml::Vector3 &origin, const cml::Vector3 &dir);
     void marchCube(int ix, int iy, int iz);
     
     union VtxIdx{
@@ -59,7 +61,11 @@ private:
         };
         int idx;
     };
-    std::map<int, cml::Vector3> _norms;
+    struct NormalInfo{
+        cml::Vector3 normal;
+        float brightness;
+    };
+    std::map<int, NormalInfo> _norms;
 };
 
 
