@@ -2,6 +2,7 @@
 #include "clod.h"
 #include "lwtf/lwCamera.h"
 #include "podModel.h"
+#include "lwModel.h"
 
 namespace{
     GLfloat g_x[] = {
@@ -136,7 +137,8 @@ Clod::Clod(int xsize, int ysize, int zsise){
     
     updateFaces();
     
-    _pModel = new PodModel("Scene.pod");
+    _pModel = new PodModel("test.pod");
+    _pMdl = new LwModel("test.lwmdl");
     
     _camRotY = _camRotX = 0.f;
     _camDist = 30.f;
@@ -200,7 +202,7 @@ void Clod::draw(){
     glDisableVertexAttribArray(_mcPosLoc);
     glDisableVertexAttribArray(_mcNormLoc);
     
-    //_pModel->draw();
+    _pModel->draw();
 }
 
 int Clod::pick(float x, float y){
@@ -766,18 +768,6 @@ static const GLfloat a2fEdgeDirection[12][3] =
     {1.0, 0.0, 0.0},{0.0, 1.0, 0.0},{-1.0, 0.0, 0.0},{0.0, -1.0, 0.0},
     {0.0, 0.0, 1.0},{0.0, 0.0, 1.0},{ 0.0, 0.0, 1.0},{0.0,  0.0, 1.0}
 };
-
-float fGetOffset(float fValue1, float fValue2, float fValueDesired)
-{
-    return .5f;
-    float fDelta = fValue2 - fValue1;
-    
-    if(fDelta == 0.0f)
-    {
-        return 0.5f;
-    }
-    return (fValueDesired - fValue1)/fDelta;
-}
 
 //void vGetNormal(cml::Vector3 &rfNormal, float fX, float fY, float fZ)
 //{

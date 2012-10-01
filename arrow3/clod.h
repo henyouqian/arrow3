@@ -6,6 +6,7 @@ namespace lw {
 }
 
 class PodModel;
+class LwModel;
 
 class Clod{
 public:
@@ -42,6 +43,7 @@ private:
     bool _updateCam;
     float _touchDist;
     PodModel* _pModel;
+    LwModel* _pMdl;
     
     void setBlocks(int x, int y, int z, bool b);
     bool getBlocks(int x, int y, int z);

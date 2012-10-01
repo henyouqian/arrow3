@@ -1,0 +1,6 @@
+<lwmdl pod="test.pod">
+    <mesh id="0" effects="sprite.lwfx">
+        <input name="u_texture" type="TEXTURE" value="tex_arm.pvr"/>
+        <input name="u_color" type="VEC4" value="255, 255, 255, 255"/>
+    </mesh>
+</lwmdl>

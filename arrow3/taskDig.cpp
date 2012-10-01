@@ -4,7 +4,7 @@
 
 void TaskDig::vBegin(){
     //_pClod = new Clod(3,3,3);
-    _pClod = new Clod(15,15,15);
+    _pClod = new Clod(16,16,16);
     lw::EffectsRes* pFX = lw::EffectsRes::create("test.lwfx");
     pFX->release();
 }

@@ -90,13 +90,9 @@
 
 #pragma mark - GLKView and GLKViewController delegate methods
 
-- (void)update
-{
-    lw::App::s().main();
-}
-
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {   
+    lw::App::s().main();
     CGSize sz = view.bounds.size;
     lw::App::s().setViewSize(sz.width, sz.height);
     lw::App::s().draw();
