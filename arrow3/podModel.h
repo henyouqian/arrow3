@@ -24,6 +24,7 @@ private:
     int _uvLoc;
     int _mvpLoc;
     int _samplerLoc;
+    int _colorLoc;
     
     PVRTMat4 _viewProjMat;
     

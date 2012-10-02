@@ -81,6 +81,7 @@ PodModel::PodModel(const char *podFile){
     _uvLoc = _pEffects->getLocationFromSemantic(lw::EffectsRes::UV0);
     _mvpLoc = _pEffects->getLocationFromSemantic(lw::EffectsRes::WORLDVIEWPROJ);
     _samplerLoc = _pEffects->getUniformLocation("u_texture");
+    _colorLoc = _pEffects->getUniformLocation("u_color");
 }
 
 PodModel::~PodModel(){
@@ -113,6 +114,8 @@ void PodModel::draw(){
 		// Pass the model-view-projection matrix (MVP) to the shader to transform the vertices
 		PVRTMat4 mMVP = _viewProjMat * mWorld;
 		glUniformMatrix4fv(_mvpLoc, 1, GL_FALSE, mMVP.f);
+        
+        glUniform4f(_colorLoc, 1.0f, 1.0f, 1.0f, 1.0f);
         
 		// Load the correct texture using our texture lookup table
 		GLuint uiTex = 0;

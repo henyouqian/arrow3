@@ -1,6 +1,18 @@
 <lwmdl pod="test.pod">
-    <mesh id="0" effects="sprite.lwfx">
+    <mesh id="0" effects="texture.lwfx">
         <input name="u_texture" type="TEXTURE" value="tex_arm.pvr"/>
-        <input name="u_color" type="VEC4" value="255, 255, 255, 255"/>
+        <input name="u_color" type="VEC4" value="1, 1, 1, 1"/>
+    </mesh>
+    <mesh id="1" effects="texture.lwfx">
+        <input name="u_texture" type="TEXTURE" value="tex_arm.pvr"/>
+        <input name="u_color" type="VEC4" value="1, 0, 0, 1"/>
+    </mesh>
+    <mesh id="2" effects="texture.lwfx">
+        <input name="u_texture" type="TEXTURE" value="tex_arm.pvr"/>
+        <input name="u_color" type="VEC4" value="0, 1, 0, 1"/>
+    </mesh>
+    <mesh id="3" effects="texture.lwfx">
+        <input name="u_texture" type="TEXTURE" value="tex_arm.pvr"/>
+        <input name="u_color" type="VEC4" value="0, 0, 1, 1"/>
     </mesh>
 </lwmdl>

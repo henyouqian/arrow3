@@ -141,7 +141,7 @@ Clod::Clod(int xsize, int ysize, int zsise){
     _pMdl = new LwModel("test.lwmdl");
     
     _camRotY = _camRotX = 0.f;
-    _camDist = 30.f;
+    _camDist = 300.f;
     _updateCam = true;
     updateCam();
     
@@ -152,6 +152,7 @@ Clod::~Clod(){
     delete _pCam;
     delete [] _blocks;
     delete _pModel;
+    delete _pMdl;
     _pEffect->release();
     _pFXMarchingCube->release();
 }
@@ -161,48 +162,44 @@ void Clod::draw(){
         updateCam();
     }
     
-    cml::Matrix4 mvp;
-    static float f = 0;
-    f += .01f;
-    cml::Matrix4 m;
-    cml::matrix_rotation_world_y(m, 0.f);
+//    cml::Matrix4 mvp;
+//    _pCam->getViewProj(mvp);
+//
+//    glDisable(GL_TEXTURE_2D);
+//    glEnable(GL_CULL_FACE);
+//    glEnable(GL_DEPTH_TEST);
+//    glDepthMask(GL_TRUE);
+//    glDisable(GL_BLEND);
+//    
+//    const char* p;
+//    _pEffect->use();
+//    glUniformMatrix4fv(_mvpMatLocation, 1, false, mvp.data());
+//    p = (char*)(&_vertices[0]);
+//    glEnableVertexAttribArray(_posLocation);
+//    glVertexAttribPointer(_posLocation, 4, GL_FLOAT, GL_FALSE, 16, p);
+//    //glDrawArrays(GL_TRIANGLES, 0, _vertices.size()/4);
+//    glDisableVertexAttribArray(_posLocation);
+//    
+//    _pFXMarchingCube->use();
+//    glUniformMatrix4fv(_mcWvpLoc, 1, false, mvp.data());
+//    p = (char*)(&_qVertices[0]);
+//    glEnableVertexAttribArray(_mcPosLoc);
+//    glVertexAttribPointer(_mcPosLoc, 3, GL_FLOAT, GL_FALSE, 28, p);
+//    glEnableVertexAttribArray(_mcNormLoc);
+//    glVertexAttribPointer(_mcNormLoc, 4, GL_FLOAT, GL_FALSE, 28, p+12);
+//    
+//    glDrawArrays(GL_TRIANGLES, 0, _qVertices.size()/7);
+//    glDisableVertexAttribArray(_mcPosLoc);
+//    glDisableVertexAttribArray(_mcNormLoc);
     
-    _pCam->getViewProj(mvp);
-    //mvp = mvp * m;
     
-    cml::Matrix4 mNormal4 = cml::transpose(cml::inverse(m)); 
-    cml::Matrix3 mNormal(m(0,0), m(0,1), m(0,2), 
-                        m(1,0), m(1,1), m(1,2), 
-                        m(2,0), m(2,1), m(2,2));
-    
-    glDisable(GL_TEXTURE_2D);
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
     glDisable(GL_BLEND);
-    
-    const char* p;
-    _pEffect->use();
-    glUniformMatrix4fv(_mvpMatLocation, 1, false, mvp.data());
-    p = (char*)(&_vertices[0]);
-    glEnableVertexAttribArray(_posLocation);
-    glVertexAttribPointer(_posLocation, 4, GL_FLOAT, GL_FALSE, 16, p);
-    //glDrawArrays(GL_TRIANGLES, 0, _vertices.size()/4);
-    glDisableVertexAttribArray(_posLocation);
-    
-    _pFXMarchingCube->use();
-    glUniformMatrix4fv(_mcWvpLoc, 1, false, mvp.data());
-    p = (char*)(&_qVertices[0]);
-    glEnableVertexAttribArray(_mcPosLoc);
-    glVertexAttribPointer(_mcPosLoc, 3, GL_FLOAT, GL_FALSE, 28, p);
-    glEnableVertexAttribArray(_mcNormLoc);
-    glVertexAttribPointer(_mcNormLoc, 4, GL_FLOAT, GL_FALSE, 28, p+12);
-    
-    glDrawArrays(GL_TRIANGLES, 0, _qVertices.size()/7);
-    glDisableVertexAttribArray(_mcPosLoc);
-    glDisableVertexAttribArray(_mcNormLoc);
-    
-    _pModel->draw();
+    glEnable(GL_TEXTURE_2D);
+    //_pModel->draw();
+    _pMdl->draw(_pCam);
 }
 
 int Clod::pick(float x, float y){

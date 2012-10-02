@@ -180,16 +180,41 @@ LwInputUV::LwInputUV(GLint location, SPODMesh* pMesh, int uvIdx)
 
 void LwInputUV::use(){
     glEnableVertexAttribArray(_location);
-	glVertexAttribPointer(_location, 2, GL_FLOAT, GL_FALSE, _pMesh->psUVW[0].nStride, _pMesh->psUVW[0].pData);
+	glVertexAttribPointer(_location, 2, GL_FLOAT, GL_FALSE, _pMesh->psUVW[_uvIdx].nStride, _pMesh->psUVW[_uvIdx].pData);
 }
 
 void LwInputUV::unuse(){
     glDisableVertexAttribArray(_location);
 }
 
+//--------------------------------------
+class LwInputWVP : public LwInput{
+public:
+    LwInputWVP(GLint location, LwMesh* pMesh);
+    virtual void use();
+private:
+    LwMesh* _pMesh;
+};
+
+LwInputWVP::LwInputWVP(GLint location, LwMesh* pMesh)
+:LwInput(location), _pMesh(pMesh){
+    
+}
+
+void LwInputWVP::use(){
+    lw::Camera* pCam = _pMesh->getCamera();
+    cml::Matrix4 mViewProj;
+    pCam->getViewProj(mViewProj);
+    PVRTMat4 world = *(_pMesh->getWorldMatrix());
+    PVRTMat4 viewProj(mViewProj.data());
+    
+    PVRTMat4 wvp = viewProj * world;
+    glUniformMatrix4fv(_location, 1, GL_FALSE, wvp.f);
+}
+
 //==========================================
 LwMesh::LwMesh(const tinyxml2::XMLElement* pElemMesh, CPVRTModelPOD& pod)
-:_textureUnit(0){
+:_textureUnit(0), _pCamera(NULL), _pmWorld(NULL){
     _meshId = pElemMesh->IntAttribute("id");
     lwassert(_meshId < pod.nNumMesh );
     _pMesh = pod.pMesh + _meshId;
@@ -225,6 +250,45 @@ LwMesh::~LwMesh(){
     }
 }
 
+void LwMesh::draw(lw::Camera* pCamera, const PVRTMat4* pmWorld){
+    _pCamera = pCamera;
+    _pmWorld = pmWorld;
+    _pEffects->use();
+    std::vector<LwInput*>::iterator it = _inputs.begin();
+    std::vector<LwInput*>::iterator itend = _inputs.end();
+    for ( ; it != itend; ++it ){
+        (*it)->use();
+    }
+    
+    //todo
+    if(_pMesh->nNumStrips == 0)
+	{
+		glDrawElements(GL_TRIANGLES, _pMesh->nNumFaces*3, GL_UNSIGNED_SHORT, 0);
+	}
+	else
+	{
+		int offset = 0;
+		for(int i = 0; i < (int)_pMesh->nNumStrips; ++i)
+		{
+			glDrawElements(GL_TRIANGLE_STRIP, _pMesh->pnStripLength[i]+2, GL_UNSIGNED_SHORT, &((GLshort*)0)[offset]);
+            offset += _pMesh->pnStripLength[i]+2;
+		}
+	}
+    
+    it = _inputs.begin();
+    for ( ; it != itend; ++it ){
+        (*it)->unuse();
+    }
+}
+
+lw::Camera* LwMesh::getCamera(){
+    return _pCamera;
+}
+
+const PVRTMat4* LwMesh::getWorldMatrix(){
+    return _pmWorld;
+}
+
 void LwMesh::loadSemantic(const lw::EffectsRes::LocSmt& locSmt, SPODMesh* pMesh){
     if ( locSmt.semantic == lw::EffectsRes::POSITION ){
         LwInputPosition* pInput = new LwInputPosition(locSmt.location, pMesh);
@@ -234,6 +298,9 @@ void LwMesh::loadSemantic(const lw::EffectsRes::LocSmt& locSmt, SPODMesh* pMesh)
         _inputs.push_back(pInput);
     }else if ( locSmt.semantic >= lw::EffectsRes::UV0 && locSmt.semantic <= lw::EffectsRes::UV3 ){
         LwInputUV* pInput = new LwInputUV(locSmt.location, pMesh, locSmt.semantic-lw::EffectsRes::UV0);
+        _inputs.push_back(pInput);
+    }else if ( locSmt.semantic >= lw::EffectsRes::WORLDVIEWPROJ ){
+        LwInputWVP* pInput = new LwInputWVP(locSmt.location, this);
         _inputs.push_back(pInput);
     }
 }
@@ -252,7 +319,8 @@ void LwMesh::loadInput(const char *name, const char *type, const char *value){
         LwInputVec4* pInput = new LwInputVec4(loc, x, y, z, w);
         _inputs.push_back(pInput);
     }else if ( strcmp(type, "TEXTURE") == 0 ){
-        LwInputTexture* pInput = new LwInputTexture(loc, value, _textureUnit++);
+        LwInputTexture* pInput = new LwInputTexture(loc, value, _textureUnit);
+        ++_textureUnit;
         _inputs.push_back(pInput);
     }
 }
@@ -283,6 +351,11 @@ LwModel::LwModel(const char *mdlFile){
         lwassert(0);
 		return;
 	}
+    
+    for ( int i = 0; i < _pod.nNumMeshNode; ++i ){
+        SPODNode& node = _pod.pNode[i];
+        lwinfo(node.pszName << ": " << node.nIdx);
+    }
     
     _vbosNum = _pod.nNumMesh;
 	_vbos = new GLuint[_vbosNum];
@@ -317,48 +390,6 @@ LwModel::LwModel(const char *mdlFile){
         _meshes.push_back(pMesh);
         pElemMesh = pElemMesh->NextSiblingElement("mesh");
     }
-    
-    //texture
-    m_puiTextureIDs = new GLuint[_pod.nNumMaterial];
-    
-	if(!m_puiTextureIDs)
-	{
-		lwerror("ERROR: Insufficient memory.");
-        lwassert(0);
-		return;
-	}
-    
-	for(int i = 0; i < (int) _pod.nNumMaterial; ++i)
-	{
-		m_puiTextureIDs[i] = 0;
-		SPODMaterial* pMaterial = &_pod.pMaterial[i];
-        
-		if(pMaterial->nIdxTexDiffuse != -1)
-		{
-			/*
-             Using the tools function PVRTTextureLoadFromPVR load the textures required by the pod file.
-             
-             Note: This function only loads .pvr files. You can set the textures in 3D Studio Max to .pvr
-             files using the PVRTexTool plug-in for max. Alternatively, the pod material properties can be
-             modified in PVRShaman.
-             */
-            
-			const char* sTextureName = _pod.pTexture[pMaterial->nIdxTexDiffuse].pszName;
-            
-			if(PVRTTextureLoadFromPVR(_f(sTextureName), &m_puiTextureIDs[i]) != PVR_SUCCESS)
-			{
-				lwerror("only pvr");
-                lwassert(0);
-				return;
-			}
-		}
-	}
-
-    _pEffects = lw::EffectsRes::create("texture.lwfx");
-    _posLoc = _pEffects->getLocationFromSemantic(lw::EffectsRes::POSITION);
-    _uvLoc = _pEffects->getLocationFromSemantic(lw::EffectsRes::UV0);
-    _mvpLoc = _pEffects->getLocationFromSemantic(lw::EffectsRes::WORLDVIEWPROJ);
-    _samplerLoc = _pEffects->getUniformLocation("u_texture");
 }
 
 LwModel::~LwModel(){
@@ -368,8 +399,6 @@ LwModel::~LwModel(){
     if ( _indexVbos )
         glDeleteBuffers(_vbosNum, _indexVbos);
         delete [] _indexVbos;
-    glDeleteTextures(_pod.nNumMaterial, &m_puiTextureIDs[0]);
-    _pEffects->release();
     
     std::vector<LwMesh*>::iterator it = _meshes.begin();
     std::vector<LwMesh*>::iterator itend = _meshes.end();
@@ -378,111 +407,25 @@ LwModel::~LwModel(){
     }
 }
 
-void LwModel::draw(){
-    _pEffects->use();
-    
+void LwModel::draw(lw::Camera *pCamera){
     for (unsigned int i = 0; i < _pod.nNumMeshNode; ++i)
 	{
-		SPODNode& Node = _pod.pNode[i];
+		SPODNode& node = _pod.pNode[i];
         
 		// Get the node model matrix
 		PVRTMat4 mWorld;
-		mWorld = _pod.GetWorldMatrix(Node);
+		mWorld = _pod.GetWorldMatrix(node);
         
-        PVRTMat4 mScale = PVRTMat4::Scale(.07f, .07f, .07f);
-        mWorld = mScale * mWorld;
-        PVRTMat4 mTrans = PVRTMat4::Translation(0.f, 2.f, 0.f);
-        mWorld = mTrans * mWorld;
-        
-		// Pass the model-view-projection matrix (MVP) to the shader to transform the vertices
-		PVRTMat4 mMVP = _viewProjMat * mWorld;
-		glUniformMatrix4fv(_mvpLoc, 1, GL_FALSE, mMVP.f);
-        
-		// Load the correct texture using our texture lookup table
-		GLuint uiTex = 0;
-        
-		if(Node.nIdxMaterial != -1)
-			uiTex = m_puiTextureIDs[Node.nIdxMaterial];
-        
-		glBindTexture(GL_TEXTURE_2D, uiTex);
-        
-		/*
-         Now that the model-view matrix is set and the materials ready,
-         call another function to actually draw the mesh.
-         */
-		drawMesh(i);
+        int meshIdx = node.nIdx;
+        if ( meshIdx < _meshes.size() ){
+            lwassert(_vbos[meshIdx] && _indexVbos[meshIdx]);
+            glBindBuffer(GL_ARRAY_BUFFER, _vbos[meshIdx]);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexVbos[meshIdx]);
+            
+            _meshes[meshIdx]->draw(pCamera, &mWorld);
+            
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        }
 	}
 }
-
-void LwModel::setViewProj(const cml::Matrix4& mat){
-    memcpy(_viewProjMat.f, mat.data(), sizeof(float)*16);
-}
-
-void LwModel::drawMesh(int i32NodeIndex)
-{
-	int i32MeshIndex = _pod.pNode[i32NodeIndex].nIdx;
-	SPODMesh* pMesh = &_pod.pMesh[i32MeshIndex];
-    
-	// bind the VBO for the mesh
-	glBindBuffer(GL_ARRAY_BUFFER, _vbos[i32MeshIndex]);
-	// bind the index buffer, won't hurt if the handle is 0
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexVbos[i32MeshIndex]);
-    
-	// Enable the vertex attribute arrays
-	glEnableVertexAttribArray(_posLoc);
-	glEnableVertexAttribArray(_uvLoc);
-    
-	// Set the vertex attribute offsets
-	glVertexAttribPointer(_posLoc, 3, GL_FLOAT, GL_FALSE, pMesh->sVertex.nStride, pMesh->sVertex.pData);
-	//glVertexAttribPointer(NORMAL_ARRAY, 3, GL_FLOAT, GL_FALSE, pMesh->sNormals.nStride, pMesh->sNormals.pData);
-	glVertexAttribPointer(_uvLoc, 2, GL_FLOAT, GL_FALSE, pMesh->psUVW[0].nStride, pMesh->psUVW[0].pData);
-    
-	/*
-     The geometry can be exported in 4 ways:
-     - Indexed Triangle list
-     - Non-Indexed Triangle list
-     - Indexed Triangle strips
-     - Non-Indexed Triangle strips
-     */
-	if(pMesh->nNumStrips == 0)
-	{
-		if(_indexVbos[i32MeshIndex])
-		{
-			// Indexed Triangle list
-			glDrawElements(GL_TRIANGLES, pMesh->nNumFaces*3, GL_UNSIGNED_SHORT, 0);
-		}
-		else
-		{
-			// Non-Indexed Triangle list
-			glDrawArrays(GL_TRIANGLES, 0, pMesh->nNumFaces*3);
-		}
-	}
-	else
-	{
-		int offset = 0;
-        
-		for(int i = 0; i < (int)pMesh->nNumStrips; ++i)
-		{
-			if(_indexVbos[i32MeshIndex])
-			{
-				// Indexed Triangle strips
-				glDrawElements(GL_TRIANGLE_STRIP, pMesh->pnStripLength[i]+2, GL_UNSIGNED_SHORT, &((GLshort*)0)[offset]);
-			}
-			else
-			{
-				// Non-Indexed Triangle strips
-				glDrawArrays(GL_TRIANGLE_STRIP, offset, pMesh->pnStripLength[i]+2);
-			}
-			offset += pMesh->pnStripLength[i]+2;
-		}
-	}
-    
-	// Safely disable the vertex attribute arrays
-	glDisableVertexAttribArray(_posLoc);
-	//glDisableVertexAttribArray(NORMAL_ARRAY);
-	glDisableVertexAttribArray(_uvLoc);
-    
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-}
-

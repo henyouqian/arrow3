@@ -1,6 +1,6 @@
 <lwfx>
     <vs>
-        attribute vec4 a_position;
+        attribute vec3 a_position;
         attribute vec2 a_uv;
 
         uniform mat4 u_mvpmat;
@@ -9,17 +9,18 @@
 
         void main()
         {
-            gl_Position = u_mvpmat * a_position;
+            gl_Position = u_mvpmat * vec4(a_position, 1.0);
             v_texCoord = a_uv;
         }
     </vs>
     <fs>
         uniform sampler2D u_texture;
         varying highp vec2 v_texCoord;
+        uniform lowp vec4 u_color;
 
         void main()
         {
-            gl_FragColor = texture2D(u_texture, v_texCoord);
+            gl_FragColor = texture2D(u_texture, v_texCoord)*u_color;
         }
     </fs>
     <attribute name="a_position" semantic="POSITION"/>
@@ -27,4 +28,5 @@
     <uniform name="u_mvpmat" semantic="WORLDVIEWPROJ"/>
 
     <input name="u_texture" type="TEXTURE"/>
+    <input name="u_color" type="VEC4"/>
 </lwfx>
