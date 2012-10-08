@@ -5,8 +5,6 @@
 void TaskDig::vBegin(){
     //_pClod = new Clod(3,3,3);
     _pClod = new Clod(16,16,16);
-    lw::EffectsRes* pFX = lw::EffectsRes::create("test.lwfx");
-    pFX->release();
 }
 
 void TaskDig::vEnd(){
@@ -18,7 +16,7 @@ void TaskDig::vMain(){
 }
 
 void TaskDig::vDraw(){
-    glClearColor(1, 1, 1, 1.0f);
+    glClearColor(.6f, .6f, .6f, 1.0f);
     //glClearColor(0, 0, 0, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     

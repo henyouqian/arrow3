@@ -39,10 +39,10 @@ private:
     std::vector<float> _qVertices;
     float _camRotY, _camRotX;
     float _camDist;
+    cml::Vector3 _camAim;
     std::vector<const lw::TouchEvent*> _evts;
     bool _updateCam;
     float _touchDist;
-    PodModel* _pModel;
     LwModel* _pMdl;
     
     void setBlocks(int x, int y, int z, bool b);

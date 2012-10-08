@@ -12,6 +12,11 @@
 		D01AC7DE160CD0BD00FF98AA /* podModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D01AC7DC160CD0BD00FF98AA /* podModel.cpp */; };
 		D01AC7F0160CF8DC00FF98AA /* tex_arm.pvr in Resources */ = {isa = PBXBuildFile; fileRef = D01AC7EE160CF8DC00FF98AA /* tex_arm.pvr */; };
 		D01AC7F1160CF8DC00FF98AA /* tex_base.pvr in Resources */ = {isa = PBXBuildFile; fileRef = D01AC7EF160CF8DC00FF98AA /* tex_base.pvr */; };
+		D0266C081622B6C20060EE7E /* child.lwmdl in Resources */ = {isa = PBXBuildFile; fileRef = D0266C041622B6C20060EE7E /* child.lwmdl */; };
+		D0266C091622B6C20060EE7E /* child.png in Resources */ = {isa = PBXBuildFile; fileRef = D0266C051622B6C20060EE7E /* child.png */; };
+		D0266C0A1622B6C20060EE7E /* child.pod in Resources */ = {isa = PBXBuildFile; fileRef = D0266C061622B6C20060EE7E /* child.pod */; };
+		D0266C111622DBAA0060EE7E /* child.pvr in Resources */ = {isa = PBXBuildFile; fileRef = D0266C101622DBAA0060EE7E /* child.pvr */; };
+		D0266C13162306BA0060EE7E /* phong.lwfx in Resources */ = {isa = PBXBuildFile; fileRef = D0266C12162306B90060EE7E /* phong.lwfx */; };
 		D03087B215EA665C0031D5D4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D03087B015EA66440031D5D4 /* OpenAL.framework */; };
 		D04B25C615FFB13B002B64CD /* httpMsg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D04B25C415FFB13B002B64CD /* httpMsg.cpp */; };
 		D04B25DF16010553002B64CD /* taskPoker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D04B25DD16010551002B64CD /* taskPoker.cpp */; };
@@ -61,25 +66,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		D0527AAE15E6905A00191554 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D0CB117315E68BC2003DF8B6 /* lwtf.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D0CB112715E68525003DF8B6;
-			remoteInfo = lwtf;
-		};
 		D0ABF3F915ECF1D3008CFDD8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D0ABF3F215ECF1D3008CFDD8 /* libs.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = D0ABF3D815ECF186008CFDD8;
-			remoteInfo = libs;
-		};
-		D0ABF4BD15ECF2A6008CFDD8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D0ABF3F215ECF1D3008CFDD8 /* libs.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D0ABF3D715ECF186008CFDD8;
 			remoteInfo = libs;
 		};
 		D0CB117A15E68BC2003DF8B6 /* PBXContainerItemProxy */ = {
@@ -100,6 +91,11 @@
 		D01AC7DD160CD0BD00FF98AA /* podModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = podModel.h; sourceTree = "<group>"; };
 		D01AC7EE160CF8DC00FF98AA /* tex_arm.pvr */ = {isa = PBXFileReference; lastKnownFileType = file; path = tex_arm.pvr; sourceTree = "<group>"; };
 		D01AC7EF160CF8DC00FF98AA /* tex_base.pvr */ = {isa = PBXFileReference; lastKnownFileType = file; path = tex_base.pvr; sourceTree = "<group>"; };
+		D0266C041622B6C20060EE7E /* child.lwmdl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = child.lwmdl; sourceTree = "<group>"; };
+		D0266C051622B6C20060EE7E /* child.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = child.png; sourceTree = "<group>"; };
+		D0266C061622B6C20060EE7E /* child.pod */ = {isa = PBXFileReference; lastKnownFileType = file; path = child.pod; sourceTree = "<group>"; };
+		D0266C101622DBAA0060EE7E /* child.pvr */ = {isa = PBXFileReference; lastKnownFileType = file; path = child.pvr; sourceTree = "<group>"; };
+		D0266C12162306B90060EE7E /* phong.lwfx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = phong.lwfx; sourceTree = "<group>"; };
 		D03087B015EA66440031D5D4 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		D04B25C415FFB13B002B64CD /* httpMsg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = httpMsg.cpp; sourceTree = "<group>"; };
 		D04B25C515FFB13B002B64CD /* httpMsg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = httpMsg.h; sourceTree = "<group>"; };
@@ -181,6 +177,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D0266C031622B6C20060EE7E /* child */ = {
+			isa = PBXGroup;
+			children = (
+				D0266C041622B6C20060EE7E /* child.lwmdl */,
+				D0266C101622DBAA0060EE7E /* child.pvr */,
+				D0266C051622B6C20060EE7E /* child.png */,
+				D0266C061622B6C20060EE7E /* child.pod */,
+			);
+			path = child;
+			sourceTree = "<group>";
+		};
 		D0A82C3E15F3D2BD00417BF1 /* font */ = {
 			isa = PBXGroup;
 			children = (
@@ -257,6 +264,7 @@
 		D0ABF58A15ED26E0008CFDD8 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				D0266C031622B6C20060EE7E /* child */,
 				D0ABF58B15ED26E0008CFDD8 /* fruit.pod */,
 				D0ABF58C15ED26E0008CFDD8 /* newton.pod */,
 				D0CF80801618BA56006011D8 /* test.lwmdl */,
@@ -335,6 +343,7 @@
 		D0E358631613158000B410DF /* effects */ = {
 			isa = PBXGroup;
 			children = (
+				D0266C12162306B90060EE7E /* phong.lwfx */,
 				D0F055B01614BA7A00FF2E82 /* clod2.lwfx */,
 				D0F054E61614013900FF2E82 /* marchingCube.lwfx */,
 				D0E358641613158000B410DF /* sprite.lwfx */,
@@ -357,8 +366,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				D0ABF4BE15ECF2A6008CFDD8 /* PBXTargetDependency */,
-				D0527AAF15E6905A00191554 /* PBXTargetDependency */,
 			);
 			name = arrow3;
 			productName = lwtfTest;
@@ -379,6 +386,8 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = D0CB113C15E68B7C003DF8B6;
 			productRefGroup = D0CB114815E68B7C003DF8B6 /* Products */;
@@ -449,6 +458,11 @@
 				D0F055B11614BA7A00FF2E82 /* clod2.lwfx in Resources */,
 				D0CF80821618BA56006011D8 /* test.lwmdl in Resources */,
 				D0CF80831618BA56006011D8 /* test.pod in Resources */,
+				D0266C081622B6C20060EE7E /* child.lwmdl in Resources */,
+				D0266C091622B6C20060EE7E /* child.png in Resources */,
+				D0266C0A1622B6C20060EE7E /* child.pod in Resources */,
+				D0266C111622DBAA0060EE7E /* child.pvr in Resources */,
+				D0266C13162306BA0060EE7E /* phong.lwfx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,19 +492,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		D0527AAF15E6905A00191554 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = lwtf;
-			targetProxy = D0527AAE15E6905A00191554 /* PBXContainerItemProxy */;
-		};
-		D0ABF4BE15ECF2A6008CFDD8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = libs;
-			targetProxy = D0ABF4BD15ECF2A6008CFDD8 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		D0ABF59A15ED26E0008CFDD8 /* arrowViewController_iPad.xib */ = {
@@ -580,6 +581,16 @@
 				);
 				INFOPLIST_FILE = "arrow3/arrow3-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../beep/src/GoogleAdMobAdsSDKiOS-5.0.5\"",
+					"\"$(SRCROOT)/../daily/src/GoogleAdMobAdsSDKiOS-5.0.5\"",
+					"\"$(SRCROOT)/../daisy/src/GoogleAdMobAdsSDKiOS-5.0.5\"",
+					"\"$(SRCROOT)/../englishBook/src/GoogleAdMobAdsSDKiOS-5.0.5\"",
+					"\"$(SRCROOT)/../lwTinyFrame/lib\"",
+					"\"$(SRCROOT)/../neverSeen/src/GoogleAdMobAdsSDKiOS-5.0.5\"",
+					"\"$(SRCROOT)/../vibrato/src/GoogleAdMobAdsSDKiOS-5.0.5\"",
+				);
 				PRODUCT_NAME = arrow3;
 				WRAPPER_EXTENSION = app;
 			};
@@ -600,6 +611,16 @@
 				);
 				INFOPLIST_FILE = "arrow3/arrow3-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../beep/src/GoogleAdMobAdsSDKiOS-5.0.5\"",
+					"\"$(SRCROOT)/../daily/src/GoogleAdMobAdsSDKiOS-5.0.5\"",
+					"\"$(SRCROOT)/../daisy/src/GoogleAdMobAdsSDKiOS-5.0.5\"",
+					"\"$(SRCROOT)/../englishBook/src/GoogleAdMobAdsSDKiOS-5.0.5\"",
+					"\"$(SRCROOT)/../lwTinyFrame/lib\"",
+					"\"$(SRCROOT)/../neverSeen/src/GoogleAdMobAdsSDKiOS-5.0.5\"",
+					"\"$(SRCROOT)/../vibrato/src/GoogleAdMobAdsSDKiOS-5.0.5\"",
+				);
 				PRODUCT_NAME = arrow3;
 				WRAPPER_EXTENSION = app;
 			};

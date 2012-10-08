@@ -1,0 +1,7 @@
+<lwmdl pod="child.pod">
+    <mesh id="0" effects="phong.lwfx">
+        <input name="u_texture" type="TEXTURE" value="child.pvr"/>
+        <input name="u_lightdir" type="VEC3" value="0, 0, 1"/>
+        <input name="u_shininess" type="FLOAT" value="200"/>
+    </mesh>
+</lwmdl>

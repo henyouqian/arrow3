@@ -113,7 +113,7 @@ Clod::Clod(int xsize, int ysize, int zsise){
     //_pCam->lookat(20, 20, 20, 0, 0, 0, 0, 1, 0);
     _pCam->perspective(M_PI/3.f, 2.0f/3.0f, 1, 1000);
     
-    _pEffect = lw::EffectsRes::create("clod.lwfx");
+    _pEffect = lw::EffectsRes::create("clod2.lwfx");
     _posLocation = _pEffect->getLocationFromSemantic(lw::EffectsRes::POSITION);
     _mvpMatLocation = _pEffect->getLocationFromSemantic(lw::EffectsRes::WORLDVIEWPROJ);
     
@@ -125,7 +125,7 @@ Clod::Clod(int xsize, int ysize, int zsise){
     int blocksNum = xsize * ysize * zsise;
     int sz = blocksNum/8+1;
     _blocks = new char[sz];
-    memset(_blocks, 0xff, sz);
+    memset(_blocks, 0xff, sz); 
     
     for ( int i = 0; i < blocksNum; ++i ){
         int x, y, z;
@@ -137,11 +137,11 @@ Clod::Clod(int xsize, int ysize, int zsise){
     
     updateFaces();
     
-    _pModel = new PodModel("test.pod");
-    _pMdl = new LwModel("test.lwmdl");
+    _pMdl = new LwModel("child.lwmdl");
     
     _camRotY = _camRotX = 0.f;
-    _camDist = 300.f;
+    _camDist = 40.f;
+    _camAim.set(0.f, .5f*_ysize, 0.f);
     _updateCam = true;
     updateCam();
     
@@ -151,7 +151,6 @@ Clod::Clod(int xsize, int ysize, int zsise){
 Clod::~Clod(){
     delete _pCam;
     delete [] _blocks;
-    delete _pModel;
     delete _pMdl;
     _pEffect->release();
     _pFXMarchingCube->release();
@@ -162,43 +161,36 @@ void Clod::draw(){
         updateCam();
     }
     
-//    cml::Matrix4 mvp;
-//    _pCam->getViewProj(mvp);
-//
-//    glDisable(GL_TEXTURE_2D);
-//    glEnable(GL_CULL_FACE);
-//    glEnable(GL_DEPTH_TEST);
-//    glDepthMask(GL_TRUE);
-//    glDisable(GL_BLEND);
-//    
-//    const char* p;
+    cml::Matrix4 mvp;
+    _pCam->getViewProj(mvp);
+
+    glDisable(GL_TEXTURE_2D);
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
+    glDisable(GL_BLEND);
+    
+    const char* p;
 //    _pEffect->use();
 //    glUniformMatrix4fv(_mvpMatLocation, 1, false, mvp.data());
 //    p = (char*)(&_vertices[0]);
 //    glEnableVertexAttribArray(_posLocation);
 //    glVertexAttribPointer(_posLocation, 4, GL_FLOAT, GL_FALSE, 16, p);
-//    //glDrawArrays(GL_TRIANGLES, 0, _vertices.size()/4);
+//    glDrawArrays(GL_TRIANGLES, 0, _vertices.size()/4);
 //    glDisableVertexAttribArray(_posLocation);
-//    
-//    _pFXMarchingCube->use();
-//    glUniformMatrix4fv(_mcWvpLoc, 1, false, mvp.data());
-//    p = (char*)(&_qVertices[0]);
-//    glEnableVertexAttribArray(_mcPosLoc);
-//    glVertexAttribPointer(_mcPosLoc, 3, GL_FLOAT, GL_FALSE, 28, p);
-//    glEnableVertexAttribArray(_mcNormLoc);
-//    glVertexAttribPointer(_mcNormLoc, 4, GL_FLOAT, GL_FALSE, 28, p+12);
-//    
-//    glDrawArrays(GL_TRIANGLES, 0, _qVertices.size()/7);
-//    glDisableVertexAttribArray(_mcPosLoc);
-//    glDisableVertexAttribArray(_mcNormLoc);
     
+    _pFXMarchingCube->use();
+    glUniformMatrix4fv(_mcWvpLoc, 1, false, mvp.data());
+    p = (char*)(&_qVertices[0]);
+    glEnableVertexAttribArray(_mcPosLoc);
+    glVertexAttribPointer(_mcPosLoc, 3, GL_FLOAT, GL_FALSE, 28, p);
+    glEnableVertexAttribArray(_mcNormLoc);
+    glVertexAttribPointer(_mcNormLoc, 4, GL_FLOAT, GL_FALSE, 28, p+12);
     
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_DEPTH_TEST);
-    glDepthMask(GL_TRUE);
-    glDisable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
-    //_pModel->draw();
+    glDrawArrays(GL_TRIANGLES, 0, _qVertices.size()/7);
+    glDisableVertexAttribArray(_mcPosLoc);
+    glDisableVertexAttribArray(_mcNormLoc);
+    
     _pMdl->draw(_pCam);
 }
 
@@ -387,19 +379,15 @@ void Clod::updateCam(){
         _touchDist = dist;
     }
     
-    float aimx = 0.f;
-    float aimy = .5f * _ysize;
-    float aimz = 0.f;
     cml::Vector4 v(0.f, 0.f, _camDist, 1.f);
     cml::Matrix4 m, m1;
     cml::matrix_rotation_world_y(m, _camRotY);
     cml::matrix_rotation_world_x(m1, _camRotX);
     m = m1 * m;
     v = v * m;
-    _pCam->lookat(v[0]+aimx, v[1]+aimy, v[2]+aimz, aimx, aimy, aimz, 0.f, 1.f, 0.f);
+    _pCam->lookat(v[0]+_camAim[0], v[1]+_camAim[1], v[2]+_camAim[2], _camAim[0], _camAim[1], _camAim[2], 0.f, 1.f, 0.f);
     
     _pCam->getViewProj(m);
-    _pModel->setViewProj(m);
 }
 
 //bool Clod::event(const lw::TouchEvent& evt){

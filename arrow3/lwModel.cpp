@@ -54,6 +54,23 @@ LwInput::LwInput(GLint location)
 }
 
 //--------------------------------------
+class LwInputFloat : public LwInput{
+public:
+    LwInputFloat(GLint location, float f);
+    virtual void use();
+private:
+    float _value;
+};
+
+LwInputFloat::LwInputFloat(GLint location, float f)
+:LwInput(location), _value(f){
+}
+
+void LwInputFloat::use(){
+    glUniform1f(_location, _value);
+}
+
+//--------------------------------------
 class LwInputVec3 : public LwInput{
 public:
     LwInputVec3(GLint location, float x, float y, float z);
@@ -188,6 +205,31 @@ void LwInputUV::unuse(){
 }
 
 //--------------------------------------
+class LwInputWV : public LwInput{
+public:
+    LwInputWV(GLint location, LwMesh* pMesh);
+    virtual void use();
+private:
+    LwMesh* _pMesh;
+};
+
+LwInputWV::LwInputWV(GLint location, LwMesh* pMesh)
+:LwInput(location), _pMesh(pMesh){
+    
+}
+
+void LwInputWV::use(){
+    lw::Camera* pCam = _pMesh->getCamera();
+    cml::Matrix4 mView;
+    pCam->getView(mView);
+    PVRTMat4 world = *(_pMesh->getWorldMatrix());
+    PVRTMat4 view(mView.data());
+    
+    PVRTMat4 wv = view * world;
+    glUniformMatrix4fv(_location, 1, GL_FALSE, wv.f);
+}
+
+//--------------------------------------
 class LwInputWVP : public LwInput{
 public:
     LwInputWVP(GLint location, LwMesh* pMesh);
@@ -210,6 +252,33 @@ void LwInputWVP::use(){
     
     PVRTMat4 wvp = viewProj * world;
     glUniformMatrix4fv(_location, 1, GL_FALSE, wvp.f);
+}
+
+//--------------------------------------
+class LwInputWVIT : public LwInput{
+public:
+    LwInputWVIT(GLint location, LwMesh* pMesh);
+    virtual void use();
+private:
+    LwMesh* _pMesh;
+};
+
+LwInputWVIT::LwInputWVIT(GLint location, LwMesh* pMesh)
+:LwInput(location), _pMesh(pMesh){
+    
+}
+
+void LwInputWVIT::use(){
+    lw::Camera* pCam = _pMesh->getCamera();
+    cml::Matrix4 mView;
+    pCam->getView(mView);
+    PVRTMat4 world = *(_pMesh->getWorldMatrix());
+    PVRTMat4 view(mView.data());
+    
+    PVRTMat4 wv = view * world;
+    PVRTMat3 wvit(wv.inverse().transpose());
+    
+    glUniformMatrix3fv(_location, 1, GL_FALSE, wvit.f);
 }
 
 //==========================================
@@ -299,16 +368,29 @@ void LwMesh::loadSemantic(const lw::EffectsRes::LocSmt& locSmt, SPODMesh* pMesh)
     }else if ( locSmt.semantic >= lw::EffectsRes::UV0 && locSmt.semantic <= lw::EffectsRes::UV3 ){
         LwInputUV* pInput = new LwInputUV(locSmt.location, pMesh, locSmt.semantic-lw::EffectsRes::UV0);
         _inputs.push_back(pInput);
-    }else if ( locSmt.semantic >= lw::EffectsRes::WORLDVIEWPROJ ){
+    }else if ( locSmt.semantic == lw::EffectsRes::WORLDVIEW ){
+        LwInputWV* pInput = new LwInputWV(locSmt.location, this);
+        _inputs.push_back(pInput);
+    }else if ( locSmt.semantic == lw::EffectsRes::WORLDVIEWPROJ ){
         LwInputWVP* pInput = new LwInputWVP(locSmt.location, this);
+        _inputs.push_back(pInput);
+    }else if ( locSmt.semantic == lw::EffectsRes::WORLDVIEWIT ){
+        LwInputWVIT* pInput = new LwInputWVIT(locSmt.location, this);
         _inputs.push_back(pInput);
     }
 }
 
 void LwMesh::loadInput(const char *name, const char *type, const char *value){
     int loc = _pEffects->getUniformLocation(name);
-    lwassert(loc != -1);
-    if ( strcmp(type, "VEC3") == 0 ){
+    if ( loc == -1 ){
+        lwerror("loc == -1:" << name);
+    }
+    if ( strcmp(type, "FLOAT") == 0 ){
+        float f;
+        sscanf(value, "%f", &f);
+        LwInputFloat* pInput = new LwInputFloat(loc, f);
+        _inputs.push_back(pInput);
+    }else if ( strcmp(type, "VEC3") == 0 ){
         float x, y, z;
         sscanf(value, "%f,%f,%f", &x, &y, &z);
         LwInputVec3* pInput = new LwInputVec3(loc, x, y, z);
@@ -415,6 +497,7 @@ void LwModel::draw(lw::Camera *pCamera){
 		// Get the node model matrix
 		PVRTMat4 mWorld;
 		mWorld = _pod.GetWorldMatrix(node);
+        mWorld.postTranslate(0.f, 4.f, 0.f);
         
         int meshIdx = node.nIdx;
         if ( meshIdx < _meshes.size() ){
