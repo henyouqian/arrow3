@@ -180,6 +180,54 @@ void LwInputNormal::unuse(){
 }
 
 //--------------------------------------
+class LwInputBinormal : public LwInput{
+public:
+    LwInputBinormal(GLint location, SPODMesh* pMesh);
+    virtual void use();
+    virtual void unuse();
+private:
+    SPODMesh* _pMesh;
+};
+
+LwInputBinormal::LwInputBinormal(GLint location, SPODMesh* pMesh)
+:LwInput(location), _pMesh(pMesh){
+    lwassert(_pMesh->sBinormals.pData);
+}
+
+void LwInputBinormal::use(){
+    glEnableVertexAttribArray(_location);
+	glVertexAttribPointer(_location, 3, GL_FLOAT, GL_FALSE, _pMesh->sBinormals.nStride, _pMesh->sBinormals.pData);
+}
+
+void LwInputBinormal::unuse(){
+    glDisableVertexAttribArray(_location);
+}
+
+//--------------------------------------
+class LwInputTangent : public LwInput{
+public:
+    LwInputTangent(GLint location, SPODMesh* pMesh);
+    virtual void use();
+    virtual void unuse();
+private:
+    SPODMesh* _pMesh;
+};
+
+LwInputTangent::LwInputTangent(GLint location, SPODMesh* pMesh)
+:LwInput(location), _pMesh(pMesh){
+    lwassert(_pMesh->sTangents.pData);
+}
+
+void LwInputTangent::use(){
+    glEnableVertexAttribArray(_location);
+	glVertexAttribPointer(_location, 3, GL_FLOAT, GL_FALSE, _pMesh->sTangents.nStride, _pMesh->sTangents.pData);
+}
+
+void LwInputTangent::unuse(){
+    glDisableVertexAttribArray(_location);
+}
+
+//--------------------------------------
 class LwInputUV : public LwInput{
 public:
     LwInputUV(GLint location, SPODMesh* pMesh, int uvIdx);
@@ -364,6 +412,12 @@ void LwMesh::loadSemantic(const lw::EffectsRes::LocSmt& locSmt, SPODMesh* pMesh)
         _inputs.push_back(pInput);
     }else if ( locSmt.semantic == lw::EffectsRes::NORMAL ){
         LwInputNormal* pInput = new LwInputNormal(locSmt.location, pMesh);
+        _inputs.push_back(pInput);
+    }else if ( locSmt.semantic == lw::EffectsRes::BINORMAL ){
+        LwInputBinormal* pInput = new LwInputBinormal(locSmt.location, pMesh);
+        _inputs.push_back(pInput);
+    }else if ( locSmt.semantic == lw::EffectsRes::TANGENT ){
+        LwInputTangent* pInput = new LwInputTangent(locSmt.location, pMesh);
         _inputs.push_back(pInput);
     }else if ( locSmt.semantic >= lw::EffectsRes::UV0 && locSmt.semantic <= lw::EffectsRes::UV3 ){
         LwInputUV* pInput = new LwInputUV(locSmt.location, pMesh, locSmt.semantic-lw::EffectsRes::UV0);

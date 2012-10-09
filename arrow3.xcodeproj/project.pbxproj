@@ -14,7 +14,6 @@
 		D01AC7F1160CF8DC00FF98AA /* tex_base.pvr in Resources */ = {isa = PBXBuildFile; fileRef = D01AC7EF160CF8DC00FF98AA /* tex_base.pvr */; };
 		D0266C081622B6C20060EE7E /* child.lwmdl in Resources */ = {isa = PBXBuildFile; fileRef = D0266C041622B6C20060EE7E /* child.lwmdl */; };
 		D0266C091622B6C20060EE7E /* child.png in Resources */ = {isa = PBXBuildFile; fileRef = D0266C051622B6C20060EE7E /* child.png */; };
-		D0266C0A1622B6C20060EE7E /* child.pod in Resources */ = {isa = PBXBuildFile; fileRef = D0266C061622B6C20060EE7E /* child.pod */; };
 		D0266C111622DBAA0060EE7E /* child.pvr in Resources */ = {isa = PBXBuildFile; fileRef = D0266C101622DBAA0060EE7E /* child.pvr */; };
 		D0266C13162306BA0060EE7E /* phong.lwfx in Resources */ = {isa = PBXBuildFile; fileRef = D0266C12162306B90060EE7E /* phong.lwfx */; };
 		D03087B215EA665C0031D5D4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D03087B015EA66440031D5D4 /* OpenAL.framework */; };
@@ -47,6 +46,9 @@
 		D0ABF5BB15ED26E0008CFDD8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D0ABF5A215ED26E0008CFDD8 /* main.m */; };
 		D0ABF5BC15ED26E0008CFDD8 /* spritePod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0ABF5A315ED26E0008CFDD8 /* spritePod.cpp */; };
 		D0ABF5BD15ED26E0008CFDD8 /* taskCube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0ABF5A615ED26E0008CFDD8 /* taskCube.cpp */; };
+		D0C9A390162451B500CC3EDE /* phongNormalMap.lwfx in Resources */ = {isa = PBXBuildFile; fileRef = D0C9A38F162451B500CC3EDE /* phongNormalMap.lwfx */; };
+		D0C9A392162453B500CC3EDE /* childnm.pvr in Resources */ = {isa = PBXBuildFile; fileRef = D0C9A391162453B500CC3EDE /* childnm.pvr */; };
+		D0C9A3A1162475A000CC3EDE /* child.pod in Resources */ = {isa = PBXBuildFile; fileRef = D0266C061622B6C20060EE7E /* child.pod */; };
 		D0CB114C15E68B7C003DF8B6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0CB114B15E68B7C003DF8B6 /* UIKit.framework */; };
 		D0CB114E15E68B7C003DF8B6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0CB114D15E68B7C003DF8B6 /* Foundation.framework */; };
 		D0CB115015E68B7C003DF8B6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0CB114F15E68B7C003DF8B6 /* CoreGraphics.framework */; };
@@ -136,6 +138,8 @@
 		D0ABF5A515ED26E0008CFDD8 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
 		D0ABF5A615ED26E0008CFDD8 /* taskCube.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = taskCube.cpp; sourceTree = "<group>"; };
 		D0ABF5A715ED26E0008CFDD8 /* taskCube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = taskCube.h; sourceTree = "<group>"; };
+		D0C9A38F162451B500CC3EDE /* phongNormalMap.lwfx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = phongNormalMap.lwfx; sourceTree = "<group>"; };
+		D0C9A391162453B500CC3EDE /* childnm.pvr */ = {isa = PBXFileReference; lastKnownFileType = file; path = childnm.pvr; sourceTree = "<group>"; };
 		D0CB114715E68B7C003DF8B6 /* arrow3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = arrow3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0CB114B15E68B7C003DF8B6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D0CB114D15E68B7C003DF8B6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -180,6 +184,7 @@
 		D0266C031622B6C20060EE7E /* child */ = {
 			isa = PBXGroup;
 			children = (
+				D0C9A391162453B500CC3EDE /* childnm.pvr */,
 				D0266C041622B6C20060EE7E /* child.lwmdl */,
 				D0266C101622DBAA0060EE7E /* child.pvr */,
 				D0266C051622B6C20060EE7E /* child.png */,
@@ -343,6 +348,7 @@
 		D0E358631613158000B410DF /* effects */ = {
 			isa = PBXGroup;
 			children = (
+				D0C9A38F162451B500CC3EDE /* phongNormalMap.lwfx */,
 				D0266C12162306B90060EE7E /* phong.lwfx */,
 				D0F055B01614BA7A00FF2E82 /* clod2.lwfx */,
 				D0F054E61614013900FF2E82 /* marchingCube.lwfx */,
@@ -431,6 +437,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0C9A3A1162475A000CC3EDE /* child.pod in Resources */,
 				D0ABF5AC15ED26E0008CFDD8 /* fruit.pod in Resources */,
 				D0ABF5AD15ED26E0008CFDD8 /* newton.pod in Resources */,
 				D0ABF5B215ED26E0008CFDD8 /* beep.wav in Resources */,
@@ -460,9 +467,10 @@
 				D0CF80831618BA56006011D8 /* test.pod in Resources */,
 				D0266C081622B6C20060EE7E /* child.lwmdl in Resources */,
 				D0266C091622B6C20060EE7E /* child.png in Resources */,
-				D0266C0A1622B6C20060EE7E /* child.pod in Resources */,
 				D0266C111622DBAA0060EE7E /* child.pvr in Resources */,
 				D0266C13162306BA0060EE7E /* phong.lwfx in Resources */,
+				D0C9A390162451B500CC3EDE /* phongNormalMap.lwfx in Resources */,
+				D0C9A392162453B500CC3EDE /* childnm.pvr in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

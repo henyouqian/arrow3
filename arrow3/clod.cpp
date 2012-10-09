@@ -140,7 +140,7 @@ Clod::Clod(int xsize, int ysize, int zsise){
     _pMdl = new LwModel("child.lwmdl");
     
     _camRotY = _camRotX = 0.f;
-    _camDist = 40.f;
+    _camDist = 30.f;
     _camAim.set(0.f, .5f*_ysize, 0.f);
     _updateCam = true;
     updateCam();
@@ -186,7 +186,6 @@ void Clod::draw(){
     glVertexAttribPointer(_mcPosLoc, 3, GL_FLOAT, GL_FALSE, 28, p);
     glEnableVertexAttribArray(_mcNormLoc);
     glVertexAttribPointer(_mcNormLoc, 4, GL_FLOAT, GL_FALSE, 28, p+12);
-    
     glDrawArrays(GL_TRIANGLES, 0, _qVertices.size()/7);
     glDisableVertexAttribArray(_mcPosLoc);
     glDisableVertexAttribArray(_mcNormLoc);

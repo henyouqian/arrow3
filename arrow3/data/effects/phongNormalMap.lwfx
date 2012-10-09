@@ -1,0 +1,82 @@
+<lwfx>
+    <vs>
+        attribute mediump vec3 a_position;
+        attribute mediump vec2 a_uv;
+        attribute mediump vec3 a_normal;
+        attribute mediump vec3 a_binormal;
+        attribute mediump vec3 a_tangent;
+
+        uniform mediump mat4 u_mv;
+        uniform mediump mat4 u_mvp;
+        uniform mediump mat3 u_mvit;
+
+        varying highp vec2 v_texcoord;
+        varying mediump vec3 v_lightdir;
+        varying mediump vec3 v_halfvec;
+
+        const mediump vec3 eyeLightDir = normalize(vec3(0.5, 0.5, 1.0));
+
+        void main()
+        {
+            gl_Position = u_mvp * vec4(a_position, 1.0);
+            v_texcoord = a_uv;
+            
+            mediump vec3 eyeVtx = (u_mv * vec4(a_position, 1.0)).xyz;
+            mediump vec3 eyeDir = -normalize(eyeVtx);
+            mediump vec3 eyeNom = normalize(u_mvit*a_normal);
+            mediump vec3 eyeTan = normalize(u_mvit*a_tangent);
+            mediump vec3 eyeBi = normalize(u_mvit*a_binormal);
+
+            v_lightdir.x = dot(eyeTan, eyeLightDir);
+            v_lightdir.y = dot(eyeBi, eyeLightDir);
+            v_lightdir.z = dot(eyeNom, eyeLightDir);
+            v_lightdir = normalize(v_lightdir);
+
+            eyeDir.x = dot(eyeTan, eyeDir);
+            eyeDir.y = dot(eyeBi, eyeDir);
+            eyeDir.z = dot(eyeNom, eyeDir);
+            eyeDir = normalize(eyeDir);
+
+            v_halfvec = normalize(v_lightdir + eyeDir);
+        }
+    </vs>
+    <fs>
+        varying highp vec2 v_texcoord;
+        varying mediump vec3 v_lightdir;
+        varying mediump vec3 v_halfvec;
+
+        uniform sampler2D u_texture;
+        uniform sampler2D u_normalmap;
+        uniform mediump float u_shininess;
+        uniform mediump float u_ambient;
+        uniform mediump float u_diffuse;
+
+        void main()
+        {
+            mediump vec3 fNormal = texture2D(u_normalmap, v_texcoord).grb;
+            fNormal = normalize((fNormal - 0.5) * 2.0);
+            mediump float diffuse = max(dot(fNormal, v_lightdir), 0.0)*u_diffuse;
+            mediump float specular = max(dot(fNormal, v_halfvec), 0.0);
+
+            if(specular > 0.0){
+               specular = pow(specular, u_shininess);
+            }
+
+            gl_FragColor = texture2D(u_texture, v_texcoord)*(u_ambient+diffuse*u_diffuse)+specular;
+        }
+    </fs>
+    <attribute name="a_position" semantic="POSITION"/>
+    <attribute name="a_uv" semantic="UV0"/>
+    <attribute name="a_normal" semantic="NORMAL"/>
+    <attribute name="a_binormal" semantic="BINORMAL"/>
+    <attribute name="a_tangent" semantic="TANGENT"/>
+    <uniform name="u_mv" semantic="WORLDVIEW"/>
+    <uniform name="u_mvp" semantic="WORLDVIEWPROJ"/>
+    <uniform name="u_mvit" semantic="WORLDVIEWIT"/>
+
+    <input name="u_texture" type="TEXTURE"/>
+    <input name="u_normalmap" type="TEXTURE"/>
+    <input name="u_shininess" type="FLOAT"/>
+    <input name="u_ambient" type="FLOAT"/>
+    <input name="u_diffuse" type="FLOAT"/>
+</lwfx>

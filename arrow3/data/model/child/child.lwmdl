@@ -1,7 +1,9 @@
 <lwmdl pod="child.pod">
-    <mesh id="0" effects="phong.lwfx">
+    <mesh id="0" effects="phongNormalMap.lwfx">
         <input name="u_texture" type="TEXTURE" value="child.pvr"/>
-        <input name="u_lightdir" type="VEC3" value="0, 0, 1"/>
-        <input name="u_shininess" type="FLOAT" value="200"/>
+        <input name="u_normalmap" type="TEXTURE" value="childnm.pvr"/>
+        <input name="u_shininess" type="FLOAT" value="400"/>
+        <input name="u_ambient" type="FLOAT" value="1.0"/>
+        <input name="u_diffuse" type="FLOAT" value="0.3"/>
     </mesh>
 </lwmdl>
